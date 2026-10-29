@@ -9,29 +9,26 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#202938;padding-bottom:75px}
 header{background:#0754a5;color:white;padding:17px 15px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:25px;font-weight:900;letter-spacing:1px}
-.logo span{color:#ffdf38}
+.logo{font-size:25px;font-weight:900}.logo span{color:#ffdf38}
 .login-btn{background:white;color:#0754a5;padding:9px 13px;border-radius:6px;text-decoration:none;font-weight:bold}
 nav{display:flex;background:#d8202f;overflow:auto}
-nav a{flex:1;color:white;text-align:center;padding:13px 8px;text-decoration:none;font-size:13px;font-weight:bold;white-space:nowrap}
-nav a.active{background:#a90e20}
-.notice{background:#fff4d5;padding:11px 13px;font-size:13px;color:#754b00}
+nav a{flex:1;color:white;text-align:center;padding:13px 8px;text-decoration:none;font-size:12px;font-weight:bold;white-space:nowrap}
+.notice{background:#fff4d5;padding:11px 13px;font-size:12px;color:#754b00}
 .wrap{padding:13px;max-width:850px;margin:auto}
 .balance{background:linear-gradient(120deg,#0754a5,#1388e8);border-radius:12px;padding:18px;color:white;margin-bottom:15px}
-.balance small{opacity:.9}
 .coins{font-size:29px;font-weight:bold;margin:8px 0}
 .card{background:white;border-radius:10px;padding:15px;margin-bottom:13px;box-shadow:0 2px 7px #0000000c}
 .card h3{margin:0 0 13px;font-size:17px}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .quick a{background:#f2f6fb;border-radius:8px;text-align:center;padding:15px 4px;text-decoration:none;color:#164b82;font-size:13px;font-weight:bold}
-.sport{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:13px 0}
-.sport:last-child{border:0}
-.tag{font-size:11px;background:#e8f7eb;color:#16833a;padding:5px 7px;border-radius:5px}
+.sport,.transaction{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:12px 0}
+.transaction:last-child,.sport:last-child{border-bottom:0}
 .muted{color:#778397;font-size:13px}
+.positive{color:#16833a;font-weight:bold}
+.negative{color:#d8202f;font-weight:bold}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:5}
 .bottom a{color:#536174;text-decoration:none;text-align:center;font-size:11px;flex:1}
 .bottom a b{display:block;font-size:19px;margin-bottom:4px}
-.bottom a.active{color:#0754a5;font-weight:bold}
 footer{text-align:center;padding:15px;color:#788398;font-size:11px}
 </style>
 </head>
@@ -40,16 +37,14 @@ footer{text-align:center;padding:15px;color:#788398;font-size:11px}
   <div class="logo">KKC<span>888</span></div>
   <a class="login-btn" href="login.html">Login</a>
 </header>
-
 <nav>
-  <a class="active" href="index.html">HOME</a>
+  <a href="index.html">HOME</a>
   <a href="#inplay">IN-PLAY</a>
   <a href="#sports">SPORTS</a>
   <a href="#games">GAMES</a>
   <a href="#account">ACCOUNT</a>
 </nav>
-
-<div class="notice">ℹ️ Demo website — virtual coins only. No real-money deposits or withdrawals.</div>
+<div class="notice">Demo website — virtual coins only. No real-money deposits or withdrawals.</div>
 
 <main class="wrap">
   <section class="balance">
@@ -69,20 +64,26 @@ footer{text-align:center;padding:15px;color:#788398;font-size:11px}
 
   <section class="card" id="inplay">
     <h3>🔴 In-Play</h3>
-    <p class="muted">Live scores and match information will appear here when a verified sports data source is connected.</p>
+    <p class="muted">Live scores will appear here when a verified sports data source is connected.</p>
   </section>
 
   <section class="card" id="sports">
     <h3>🏆 Sports</h3>
-    <div class="sport"><span>🏏 Cricket</span><span class="tag">Sports</span></div>
-    <div class="sport"><span>⚽ Football</span><span class="tag">Sports</span></div>
-    <div class="sport"><span>🎾 Tennis</span><span class="tag">Sports</span></div>
-    <div class="sport"><span>🏀 Basketball</span><span class="tag">Sports</span></div>
+    <div class="sport"><span>🏏 Cricket</span><span>Sports</span></div>
+    <div class="sport"><span>⚽ Football</span><span>Sports</span></div>
+    <div class="sport"><span>🎾 Tennis</span><span>Sports</span></div>
+    <div class="sport"><span>🏀 Basketball</span><span>Sports</span></div>
   </section>
 
   <section class="card" id="games">
     <h3>🎮 Games</h3>
     <p class="muted">Demo games section. Games will be added here later.</p>
+  </section>
+
+  <section class="card" id="transactions">
+    <h3>📜 Transaction & Chip History</h3>
+    <p class="muted">Yahan Management ke virtual chip changes ki history dikhegi.</p>
+    <div id="historyList" class="muted">Abhi koi transaction record nahi hai.</div>
   </section>
 
   <section class="card" id="account">
@@ -92,12 +93,11 @@ footer{text-align:center;padding:15px;color:#788398;font-size:11px}
     <a href="login.html">Open Login Page</a>
     <p><button onclick="logout()" style="padding:10px 14px;background:#d8202f;color:white;border:0;border-radius:6px">Logout</button></p>
   </section>
-
   <footer>KKC888 · Demo virtual coins only</footer>
 </main>
 
 <div class="bottom">
-  <a class="active" href="index.html"><b>⌂</b>Home</a>
+  <a href="index.html"><b>⌂</b>Home</a>
   <a href="#inplay"><b>◉</b>In-Play</a>
   <a href="#sports"><b>🏆</b>Sports</a>
   <a href="#games"><b>▦</b>Games</a>
@@ -105,23 +105,45 @@ footer{text-align:center;padding:15px;color:#788398;font-size:11px}
 </div>
 
 <script>
-const username = localStorage.getItem("kkc888_current_user");
-const storedPlayers = JSON.parse(localStorage.getItem("kkc888_players") || "[]");
-const player = username ? storedPlayers.find(p => p.username === username) : null;
+const username=localStorage.getItem("kkc888_current_user");
+const players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
+const player=username?players.find(p=>p.username===username):null;
 
-if (player) {
-  document.getElementById("balance").textContent =
-    Number(player.chips || 0).toLocaleString("en-IN") + " Coins";
-  document.getElementById("playerName").textContent = "Welcome, " + player.username;
-  document.getElementById("accountName").textContent = player.username;
-  document.getElementById("accountBalance").textContent =
-    Number(player.chips || 0).toLocaleString("en-IN");
+if(player){
+  const chips=Number(player.chips||0);
+  document.getElementById("balance").textContent=chips.toLocaleString("en-IN")+" Coins";
+  document.getElementById("playerName").textContent="Welcome, "+player.username;
+  document.getElementById("accountName").textContent=player.username;
+  document.getElementById("accountBalance").textContent=chips.toLocaleString("en-IN");
 }
 
-function logout() {
-  localStorage.removeItem("kkc888_current_user");
-  location.href = "login.html";
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
+
+function showHistory(){
+ const list=document.getElementById("historyList");
+ const transactions=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
+ const mine=username?transactions.filter(t=>t.username===username):[];
+ if(!mine.length){
+   list.textContent="Abhi koi transaction record nahi hai. Management se virtual chips add/remove hone ke baad records yahan aayenge.";
+   return;
+ }
+ list.innerHTML=mine.slice().reverse().map(t=>{
+   const added=t.type==="ADD";
+   return `<div class="transaction">
+     <div><strong>${added?"Virtual chips added":"Virtual chips removed"}</strong>
+     <div class="muted">${escapeHtml(t.date||"Date unavailable")}</div>
+     <div class="muted">Balance after transaction: ${Number(t.balance||0).toLocaleString("en-IN")}</div></div>
+     <div class="${added?"positive":"negative"}">${added?"+":"−"}${Number(t.amount||0).toLocaleString("en-IN")}</div>
+   </div>`;
+ }).join("");
+}
+function logout(){
+ localStorage.removeItem("kkc888_current_user");
+ location.href="login.html";
+}
+showHistory();
 </script>
 </body>
 </html>
