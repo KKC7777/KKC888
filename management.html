@@ -1,133 +1,115 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KKC888 Management</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#eef2f7;color:#172033;font-family:Arial,sans-serif}
-header{background:#073b82;color:white;padding:18px;font-size:23px;font-weight:bold}
-header small{display:block;font-size:12px;font-weight:normal;margin-top:5px}
-nav{background:#bd2637;color:white;padding:12px;display:flex;gap:18px;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;font-size:13px}
-main{max-width:850px;margin:auto;padding:15px}
-h2{font-size:19px}
-.card{background:white;border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #0001}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.stat{background:#f2f6fc;border-radius:8px;padding:13px}
-.stat span{font-size:12px;color:#657084}
-.stat strong{display:block;font-size:22px;margin-top:7px}
-label{display:block;font-size:13px;margin:12px 0 5px}
-input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:6px;font-size:15px;background:white}
-button{padding:11px 14px;border:0;border-radius:6px;background:#073b82;color:white;font-weight:bold;margin-top:12px}
-.red{background:#bd2637}
-.row{padding:11px 0;border-bottom:1px solid #e5e9ef;font-size:13px}
-.row:last-child{border:0}
-.note{font-size:12px;line-height:1.5;color:#657084}
-@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#263449}
+header{background:#0754a5;color:white;padding:18px;font-size:23px;font-weight:bold}
+header span{color:#ffdf38}
+nav{background:#d8202f;padding:12px}
+nav a{color:white;text-decoration:none;font-weight:bold}
+main{max-width:850px;margin:auto;padding:14px}
+.card{background:white;padding:17px;border-radius:10px;margin-bottom:15px;box-shadow:0 2px 8px #0001}
+h2{font-size:18px;margin-top:0}
+input,select{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px;font-size:15px}
+button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14px;font-weight:bold;cursor:pointer}
+.remove{background:#d8202f}
+.player{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
+.small{font-size:12px;color:#6c7788}
+#message{font-weight:bold;color:#137c3b}
 </style>
 </head>
 <body>
-<header>KKC888 <small>MANAGEMENT CONTROL PANEL</small></header>
-<nav>
-<a href="#overview">Overview</a>
-<a href="#players">Players</a>
-<a href="#chips">Virtual Chips</a>
-<a href="#hierarchy">Hierarchy</a>
-<a href="index.html">Player Dashboard</a>
-</nav>
+<header>KKC<span>888</span> Management</header>
+<nav><a href="index.html">← Player Home</a></nav>
 <main>
-<section class="card" id="overview">
-<h2>Management Overview</h2>
-<div class="grid">
-<div class="stat"><span>Demo Players</span><strong id="playerCount">0</strong></div>
-<div class="stat"><span>Demo Chip Actions</span><strong id="actionCount">0</strong></div>
-<div class="stat"><span>Panel Status</span><strong style="font-size:17px">Demo</strong></div>
-<div class="stat"><span>Real Money</span><strong style="font-size:17px">Disabled</strong></div>
-</div>
+<section class="card">
+<h2>Management Dashboard</h2>
+<p class="small">Demo virtual coins only. Changes are saved in this browser and are not shared across devices.</p>
+<p>Players: <b id="count">0</b></p>
+<p>Total demo chips: <b id="total">0</b></p>
+<p id="message"></p>
 </section>
-<section class="card" id="players">
+
+<section class="card">
+<h2>Add Demo Player</h2>
+<label>Player username</label>
+<input id="newUser" placeholder="e.g. player01">
+<button onclick="addPlayer()">Add Demo Player</button>
+</section>
+
+<section class="card">
+<h2>Virtual Chip Adjustment</h2>
+<label>Player username</label>
+<input id="target" placeholder="e.g. player01">
+<label>Chip amount</label>
+<input id="amount" type="number" min="1" step="1" placeholder="e.g. 100">
+<button onclick="adjust(1)">Add Demo Chips</button>
+<button class="remove" onclick="adjust(-1)">Remove Demo Chips</button>
+</section>
+
+<section class="card">
 <h2>Demo Player List</h2>
-<p class="note">Yahan add kiye gaye players sirf is browser page ki demo list mein rahenge. Ye real registered accounts nahi hain.</p>
-<label for="newPlayer">Player username</label>
-<input id="newPlayer" placeholder="Jaise player01">
-<button id="addPlayer">Add Demo Player</button>
-<div id="playerList"></div>
+<div id="players"></div>
 </section>
-<section class="card" id="chips">
-<h2>Virtual Chip Adjustment — Demo</h2>
-<p class="note">Sirf virtual test points. Inki koi cash value nahi hai. Data server par save nahi hota.</p>
-<label for="targetPlayer">Player username</label>
-<input id="targetPlayer" placeholder="Player username">
-<label for="chipAmount">Chips amount</label>
-<input id="chipAmount" type="number" min="1" max="100000" placeholder="100">
-<button id="addChips">Add Demo Chips</button>
-<button id="removeChips" class="red">Remove Demo Chips</button>
-<div id="chipMessage" class="note"></div>
-</section>
-<section class="card" id="hierarchy">
-<h2>Management Hierarchy</h2>
-<div class="row">1. White Level</div>
-<div class="row">2. Super Master</div>
-<div class="row">3. Master</div>
-<div class="row">4. Admin</div>
-<div class="row">5. Player</div>
-<p class="note">Ye abhi hierarchy ka visual demo hai; roles aur permissions backend se connect nahi hain.</p>
-</section>
+
 <section class="card">
-<h2>Recent Demo Activity</h2>
-<div id="activity"><p class="note">Abhi koi activity nahi.</p></div>
-</section>
-<section class="card">
-<p class="note">Demo only. Is static page par koi real authentication, shared database ya secure management permission nahi hai. Real-money deposits, withdrawals aur betting disabled hain.</p>
-<a href="login.html">Back to Login</a>
+<h2>Recent Activity</h2>
+<div id="activity" class="small">No activity yet.</div>
 </section>
 </main>
+
 <script>
-const players=[];
-const activity=[];
-let actionCount=0;
-function drawPlayers(){
- document.getElementById("playerCount").textContent=players.length;
- const list=document.getElementById("playerList");
- list.innerHTML="";
- if(players.length===0){list.innerHTML='<p class="note">Abhi koi demo player nahi hai.</p>';return;}
- players.forEach(function(p){const d=document.createElement("div");d.className="row";d.textContent=p.username+" — Demo chips: "+p.chips;list.appendChild(d);});
+let players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
+let activity=JSON.parse(localStorage.getItem("kkc888_activity")||"[]");
+
+function save(){
+ localStorage.setItem("kkc888_players",JSON.stringify(players));
+ localStorage.setItem("kkc888_activity",JSON.stringify(activity));
+ render();
 }
-function drawActivity(){
- document.getElementById("actionCount").textContent=actionCount;
- const box=document.getElementById("activity");
- box.innerHTML="";
- if(activity.length===0){box.innerHTML='<p class="note">Abhi koi activity nahi.</p>';return;}
- activity.slice().reverse().forEach(function(a){const d=document.createElement("div");d.className="row";d.textContent=a;box.appendChild(d);});
+function log(text){
+ activity.unshift(new Date().toLocaleString()+" — "+text);
+ activity=activity.slice(0,20);
 }
-document.getElementById("addPlayer").addEventListener("click",function(){
- const input=document.getElementById("newPlayer");
- const username=input.value.trim();
- if(!username){alert("Player username likho.");return;}
- if(players.some(p=>p.username.toLowerCase()===username.toLowerCase())){alert("Ye demo player pehle se hai.");return;}
+function addPlayer(){
+ const username=document.getElementById("newUser").value.trim();
+ if(!username){alert("Username enter karo.");return;}
+ if(players.some(p=>p.username.toLowerCase()===username.toLowerCase())){
+  alert("Ye username pehle se hai.");return;
+ }
  players.push({username:username,chips:0});
- activity.push("Demo player added: "+username);
- input.value="";
- drawPlayers();drawActivity();
-});
-function adjustChips(delta){
- const username=document.getElementById("targetPlayer").value.trim();
- const amount=Number(document.getElementById("chipAmount").value);
- const msg=document.getElementById("chipMessage");
- if(!username||!Number.isInteger(amount)||amount<1||amount>100000){msg.textContent="Username aur 1–100000 ke beech poora amount daalo.";return;}
- let p=players.find(x=>x.username.toLowerCase()===username.toLowerCase());
- if(!p){msg.textContent="Demo player nahi mila. Pehle Player List mein add karo.";return;}
- if(delta<0&&p.chips<amount){msg.textContent="Demo balance itna nahi hai.";return;}
- p.chips+=delta*amount;
- actionCount++;
- activity.push((delta>0?"Added ":"Removed ")+amount+" virtual demo chips for "+p.username);
- msg.textContent="Demo update successful. Balance: "+p.chips+" virtual chips.";
- drawPlayers();drawActivity();
+ log("Player added: "+username);
+ document.getElementById("newUser").value="";
+ document.getElementById("message").textContent="Demo player add ho gaya.";
+ save();
 }
-document.getElementById("addChips").addEventListener("click",function(){adjustChips(1);});
-document.getElementById("removeChips").addEventListener("click",function(){adjustChips(-1);});
-drawPlayers();drawActivity();
+function adjust(direction){
+ const username=document.getElementById("target").value.trim();
+ const amount=Number(document.getElementById("amount").value);
+ const p=players.find(p=>p.username.toLowerCase()===username.toLowerCase());
+ if(!p){alert("Player list mein pehle player add karo.");return;}
+ if(!Number.isSafeInteger(amount)||amount<=0){alert("Valid positive chip amount enter karo.");return;}
+ if(direction<0&&p.chips<amount){alert("Itne chips available nahi hain.");return;}
+ p.chips+=direction*amount;
+ log((direction>0?"Added ":"Removed ")+amount+" chips "+(direction>0?"to ":"from ")+username);
+ document.getElementById("message").textContent="Updated "+username+" balance: "+p.chips+" demo chips.";
+ save();
+}
+function render(){
+ document.getElementById("count").textContent=players.length;
+ document.getElementById("total").textContent=players.reduce((s,p)=>s+Number(p.chips||0),0).toLocaleString("en-IN");
+ document.getElementById("players").innerHTML=players.length?players.map(p=>"<div class='player'><b>"+escapeHtml(p.username)+"</b><br>Demo chips: "+Number(p.chips||0).toLocaleString("en-IN")+"</div>").join(""):"No players added yet.";
+ document.getElementById("activity").innerHTML=activity.length?activity.map(a=>"<div class='player'>"+escapeHtml(a)+"</div>").join(""):"No activity yet.";
+}
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+render();
 </script>
 </body>
 </html>
