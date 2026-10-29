@@ -15,11 +15,11 @@ nav a{color:white;text-decoration:none;font-weight:bold}
 main{max-width:850px;margin:auto;padding:14px}
 .card{background:white;padding:17px;border-radius:10px;margin-bottom:15px;box-shadow:0 2px 8px #0001}
 h2{font-size:18px;margin-top:0}
-input,select{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px;font-size:15px}
-button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14px;font-weight:bold;cursor:pointer}
+input{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px;font-size:15px}
+button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14px;font-weight:bold;margin:3px;cursor:pointer}
 .remove{background:#d8202f}
-.player{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
 .small{font-size:12px;color:#6c7788}
+.player,.record{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
 #message{font-weight:bold;color:#137c3b}
 </style>
 </head>
@@ -29,7 +29,7 @@ button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14
 <main>
 <section class="card">
 <h2>Management Dashboard</h2>
-<p class="small">Demo virtual coins only. Changes are saved in this browser and are not shared across devices.</p>
+<p class="small">Demo virtual coins only. Data is stored in this browser; this is not secure authentication or a shared database.</p>
 <p>Players: <b id="count">0</b></p>
 <p>Total demo chips: <b id="total">0</b></p>
 <p id="message"></p>
@@ -58,23 +58,25 @@ button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14
 </section>
 
 <section class="card">
-<h2>Recent Activity</h2>
-<div id="activity" class="small">No activity yet.</div>
+<h2>Recent Chip Transactions</h2>
+<div id="activity" class="small"></div>
 </section>
 </main>
 
 <script>
 let players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
 let activity=JSON.parse(localStorage.getItem("kkc888_activity")||"[]");
+let transactions=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
 
 function save(){
  localStorage.setItem("kkc888_players",JSON.stringify(players));
  localStorage.setItem("kkc888_activity",JSON.stringify(activity));
+ localStorage.setItem("kkc888_transactions",JSON.stringify(transactions));
  render();
 }
 function log(text){
  activity.unshift(new Date().toLocaleString()+" — "+text);
- activity=activity.slice(0,20);
+ activity=activity.slice(0,50);
 }
 function addPlayer(){
  const username=document.getElementById("newUser").value.trim();
@@ -94,20 +96,29 @@ function adjust(direction){
  const p=players.find(p=>p.username.toLowerCase()===username.toLowerCase());
  if(!p){alert("Player list mein pehle player add karo.");return;}
  if(!Number.isSafeInteger(amount)||amount<=0){alert("Valid positive chip amount enter karo.");return;}
- if(direction<0&&p.chips<amount){alert("Itne chips available nahi hain.");return;}
- p.chips+=direction*amount;
- log((direction>0?"Added ":"Removed ")+amount+" chips "+(direction>0?"to ":"from ")+username);
- document.getElementById("message").textContent="Updated "+username+" balance: "+p.chips+" demo chips.";
+ if(direction<0&&Number(p.chips||0)<amount){alert("Itne chips available nahi hain.");return;}
+ p.chips=Number(p.chips||0)+direction*amount;
+ const entry={
+   username:p.username,
+   type:direction>0?"ADD":"REMOVE",
+   amount:amount,
+   balance:p.chips,
+   date:new Date().toLocaleString()
+ };
+ transactions.push(entry);
+ log((direction>0?"Added ":"Removed ")+amount+" chips "+(direction>0?"to ":"from ")+p.username+"; balance "+p.chips);
+ document.getElementById("message").textContent=p.username+" balance: "+p.chips+" demo chips.";
  save();
+}
+function escapeHtml(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function render(){
  document.getElementById("count").textContent=players.length;
  document.getElementById("total").textContent=players.reduce((s,p)=>s+Number(p.chips||0),0).toLocaleString("en-IN");
  document.getElementById("players").innerHTML=players.length?players.map(p=>"<div class='player'><b>"+escapeHtml(p.username)+"</b><br>Demo chips: "+Number(p.chips||0).toLocaleString("en-IN")+"</div>").join(""):"No players added yet.";
- document.getElementById("activity").innerHTML=activity.length?activity.map(a=>"<div class='player'>"+escapeHtml(a)+"</div>").join(""):"No activity yet.";
-}
-function escapeHtml(s){
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const recent=transactions.slice(-20).reverse();
+ document.getElementById("activity").innerHTML=recent.length?recent.map(t=>"<div class='record'><b>"+escapeHtml(t.username)+"</b> — "+(t.type==="ADD"?"Added ":"Removed ")+Number(t.amount).toLocaleString("en-IN")+" chips<br>Balance after: "+Number(t.balance).toLocaleString("en-IN")+"<br>"+escapeHtml(t.date)+"</div>").join(""):"No chip transactions yet.";
 }
 render();
 </script>
