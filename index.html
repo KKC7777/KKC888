@@ -1,96 +1,127 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KKC888 Dashboard</title>
+<title>KKC888 - Player Home</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#edf1f7;font-family:Arial,sans-serif;color:#172033;padding-bottom:65px}
-header{background:#073b82;color:white;padding:16px;font-size:25px;font-weight:bold;display:flex;justify-content:space-between;align-items:center}
-header small{font-size:11px;display:block;font-weight:normal;margin-top:4px}
-.login{background:#fff;color:#073b82;padding:9px 12px;border-radius:6px;font-size:13px;text-decoration:none}
-nav{display:flex;background:#c92335;overflow:auto}
-nav a{color:white;text-decoration:none;padding:13px 15px;font-size:13px;white-space:nowrap}
-.banner{margin:12px;background:linear-gradient(120deg,#073b82,#1685d5);color:white;border-radius:10px;padding:20px}
-.banner h2{margin:0 0 8px;font-size:22px}
-.banner p{margin:0;font-size:13px}
-.wrap{padding:12px}
-.title{font-size:18px;font-weight:bold;margin:10px 0}
-.balance{background:white;border-radius:10px;padding:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px #0001}
-.balance strong{font-size:23px;color:#087b45}
-.pill{background:#e5f5ec;color:#087b45;padding:7px 10px;border-radius:5px;font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.card{background:white;padding:15px 10px;border-radius:9px;text-align:center;box-shadow:0 2px 8px #0001}
-.emoji{font-size:29px;margin-bottom:8px}
-.card b{font-size:14px}
-.card p{font-size:11px;color:#657084;margin-bottom:0}
-.section{background:white;padding:15px;border-radius:9px;margin-top:12px}
-.item{padding:12px 0;border-bottom:1px solid #e8ebf0;font-size:13px;display:flex;justify-content:space-between;gap:8px}
-.item:last-child{border:0}
-.tag{color:#087b45;font-weight:bold}
-button{background:#0b559e;color:white;border:0;border-radius:6px;padding:10px 12px;font-weight:bold}
-footer{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 0;z-index:5}
-footer a{text-decoration:none;color:#34415a;text-align:center;font-size:11px}
-footer span{display:block;font-size:19px;margin-bottom:3px}
-.note{font-size:11px;color:#657084;line-height:1.5}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#202938;padding-bottom:75px}
+header{background:#0754a5;color:white;padding:17px 15px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:25px;font-weight:900;letter-spacing:1px}
+.logo span{color:#ffdf38}
+.login-btn{background:white;color:#0754a5;padding:9px 13px;border-radius:6px;text-decoration:none;font-weight:bold}
+nav{display:flex;background:#d8202f;overflow:auto}
+nav a{flex:1;color:white;text-align:center;padding:13px 8px;text-decoration:none;font-size:13px;font-weight:bold;white-space:nowrap}
+nav a.active{background:#a90e20}
+.notice{background:#fff4d5;padding:11px 13px;font-size:13px;color:#754b00}
+.wrap{padding:13px;max-width:850px;margin:auto}
+.balance{background:linear-gradient(120deg,#0754a5,#1388e8);border-radius:12px;padding:18px;color:white;margin-bottom:15px}
+.balance small{opacity:.9}
+.coins{font-size:29px;font-weight:bold;margin:8px 0}
+.card{background:white;border-radius:10px;padding:15px;margin-bottom:13px;box-shadow:0 2px 7px #0000000c}
+.card h3{margin:0 0 13px;font-size:17px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.quick a{background:#f2f6fb;border-radius:8px;text-align:center;padding:15px 4px;text-decoration:none;color:#164b82;font-size:13px;font-weight:bold}
+.sport{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding:13px 0}
+.sport:last-child{border:0}
+.tag{font-size:11px;background:#e8f7eb;color:#16833a;padding:5px 7px;border-radius:5px}
+.muted{color:#778397;font-size:13px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom));z-index:5}
+.bottom a{color:#536174;text-decoration:none;text-align:center;font-size:11px;flex:1}
+.bottom a b{display:block;font-size:19px;margin-bottom:4px}
+.bottom a.active{color:#0754a5;font-weight:bold}
+footer{text-align:center;padding:15px;color:#788398;font-size:11px}
 </style>
 </head>
 <body>
 <header>
-<div>KKC888<small>SPORTS & GAMES</small></div>
-<a class="login" href="login.html">LOGIN</a>
+  <div class="logo">KKC<span>888</span></div>
+  <a class="login-btn" href="login.html">Login</a>
 </header>
+
 <nav>
-<a href="#home">HOME</a>
-<a href="#sports">SPORTS</a>
-<a href="#games">GAMES</a>
-<a href="#history">HISTORY</a>
-<a href="#account">ACCOUNT</a>
+  <a class="active" href="index.html">HOME</a>
+  <a href="#inplay">IN-PLAY</a>
+  <a href="#sports">SPORTS</a>
+  <a href="#games">GAMES</a>
+  <a href="#account">ACCOUNT</a>
 </nav>
-<div class="banner" id="home">
-<h2>Welcome to KKC888</h2>
-<p>Your sports and virtual games dashboard</p>
+
+<div class="notice">ℹ️ Demo website — virtual coins only. No real-money deposits or withdrawals.</div>
+
+<main class="wrap">
+  <section class="balance">
+    <small>YOUR DEMO COIN BALANCE</small>
+    <div class="coins" id="balance">1,000 Coins</div>
+    <div id="playerName">Welcome, Demo Player</div>
+  </section>
+
+  <section class="card">
+    <h3>Quick Access</h3>
+    <div class="quick">
+      <a href="#inplay">🔴<br>In-Play</a>
+      <a href="#sports">🏏<br>Sports</a>
+      <a href="#games">🎮<br>Games</a>
+    </div>
+  </section>
+
+  <section class="card" id="inplay">
+    <h3>🔴 In-Play</h3>
+    <p class="muted">Live scores and match information will appear here when a verified sports data source is connected.</p>
+  </section>
+
+  <section class="card" id="sports">
+    <h3>🏆 Sports</h3>
+    <div class="sport"><span>🏏 Cricket</span><span class="tag">Sports</span></div>
+    <div class="sport"><span>⚽ Football</span><span class="tag">Sports</span></div>
+    <div class="sport"><span>🎾 Tennis</span><span class="tag">Sports</span></div>
+    <div class="sport"><span>🏀 Basketball</span><span class="tag">Sports</span></div>
+  </section>
+
+  <section class="card" id="games">
+    <h3>🎮 Games</h3>
+    <p class="muted">Demo games section. Games will be added here later.</p>
+  </section>
+
+  <section class="card" id="account">
+    <h3>👤 My Account</h3>
+    <p id="accountName">Demo Player</p>
+    <p class="muted">Virtual coin balance: <strong id="accountBalance">1,000</strong></p>
+    <a href="login.html">Open Login Page</a>
+    <p><button onclick="logout()" style="padding:10px 14px;background:#d8202f;color:white;border:0;border-radius:6px">Logout</button></p>
+  </section>
+
+  <footer>KKC888 · Demo virtual coins only</footer>
+</main>
+
+<div class="bottom">
+  <a class="active" href="index.html"><b>⌂</b>Home</a>
+  <a href="#inplay"><b>◉</b>In-Play</a>
+  <a href="#sports"><b>🏆</b>Sports</a>
+  <a href="#games"><b>▦</b>Games</a>
+  <a href="#account"><b>☻</b>Account</a>
 </div>
-<div class="wrap">
-<div class="title">My Virtual Wallet</div>
-<div class="balance">
-<div><div style="font-size:12px;color:#657084">Demo Virtual Chips</div><strong>1,000</strong></div>
-<span class="pill">DEMO ACCOUNT</span>
-</div>
-<div class="title" id="sports">Sports</div>
-<div class="grid">
-<div class="card"><div class="emoji">🏏</div><b>Cricket</b><p>Live scores coming soon</p></div>
-<div class="card"><div class="emoji">⚽</div><b>Football</b><p>Sports section</p></div>
-<div class="card"><div class="emoji">🎾</div><b>Tennis</b><p>Sports section</p></div>
-<div class="card"><div class="emoji">🏆</div><b>All Sports</b><p>More sports coming soon</p></div>
-</div>
-<div class="title" id="games">Games</div>
-<div class="grid">
-<div class="card"><div class="emoji">🎮</div><b>Virtual Games</b><p>Demo section</p></div>
-<div class="card"><div class="emoji">🎯</div><b>Quick Play</b><p>Coming soon</p></div>
-</div>
-<div class="section" id="history">
-<div class="title" style="margin-top:0">Recent Activity</div>
-<div class="item"><span>Demo balance created</span><span class="tag">+1,000</span></div>
-<div class="item"><span>Game history</span><span>None yet</span></div>
-<div class="item"><span>Transaction history</span><span>None yet</span></div>
-</div>
-<div class="section" id="account">
-<div class="title" style="margin-top:0">My Account</div>
-<div class="item"><span>Account type</span><span>Demo Player</span></div>
-<div class="item"><span>Management hierarchy</span><span>Coming soon</span></div>
-<a href="login.html"><button>Open Login Page</button></a>
-</div>
-<div class="section">
-<p class="note">Demo website only. Virtual chips have no cash value. This page does not process real-money deposits, withdrawals or betting. Login, shared database and live sports data are not connected yet.</p>
-</div>
-</div>
-<footer>
-<a href="#home"><span>🏠</span>Home</a>
-<a href="#sports"><span>🏏</span>Sports</a>
-<a href="#games"><span>🎮</span>Games</a>
-<a href="#history"><span>📋</span>History</a>
-<a href="#account"><span>👤</span>Account</a>
-</footer>
+
+<script>
+const username = localStorage.getItem("kkc888_current_user");
+const storedPlayers = JSON.parse(localStorage.getItem("kkc888_players") || "[]");
+const player = username ? storedPlayers.find(p => p.username === username) : null;
+
+if (player) {
+  document.getElementById("balance").textContent =
+    Number(player.chips || 0).toLocaleString("en-IN") + " Coins";
+  document.getElementById("playerName").textContent = "Welcome, " + player.username;
+  document.getElementById("accountName").textContent = player.username;
+  document.getElementById("accountBalance").textContent =
+    Number(player.chips || 0).toLocaleString("en-IN");
+}
+
+function logout() {
+  localStorage.removeItem("kkc888_current_user");
+  location.href = "login.html";
+}
+</script>
 </body>
 </html>
