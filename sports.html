@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KKC888 Sports</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f8;font-family:Arial,sans-serif;color:#17243a}
+header{background:#0754a6;color:white;padding:18px;font-size:24px;font-weight:bold}
+nav{background:#d92332;display:flex;gap:24px;padding:12px;color:white}
+nav a{color:white;text-decoration:none;font-weight:bold}
+main{padding:15px;max-width:700px;margin:auto}
+h2{font-size:20px}
+.tabs{display:flex;gap:10px;margin:15px 0}
+button{border:0;border-radius:8px;padding:12px 18px;background:#dce5f2;font-weight:bold}
+button.active{background:#0754a6;color:white}
+.card{background:white;padding:16px;border-radius:12px;margin:12px 0;box-shadow:0 2px 8px #0001}
+.tag{font-size:12px;color:#b42332;font-weight:bold}
+.note{font-size:13px;color:#637087}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:13px 3px;box-shadow:0 -2px 8px #0001}
+.bottom a{color:#263750;text-decoration:none;font-size:12px}
+body{padding-bottom:65px}
+</style>
+</head>
+<body>
+<header>KKC888</header>
+<nav>
+<a href="index.html">Home</a>
+<a href="sports.html">Sports</a>
+<a href="login.html">Login</a>
+</nav>
+<main>
+<h2>Sports Center</h2>
+<p>Cricket, Football aur match updates</p>
+<div class="tabs">
+<button id="cricket" class="active" onclick="showSport('cricket')">🏏 Cricket</button>
+<button id="football" onclick="showSport('football')">⚽ Football</button>
+</div>
+<div id="matches"></div>
+<p class="note">Live scores abhi connected nahi hain. Yeh demo page hai; real scores API connect karne ke baad dikhenge.</p>
+</main>
+<div class="bottom">
+<a href="index.html">🏠<br>Home</a>
+<a href="sports.html">⚽<br>In-Play</a>
+<a href="sports.html">🏆<br>Sports</a>
+<a href="sports.html">🎮<br>Games</a>
+<a href="login.html">👤<br>Account</a>
+</div>
+<script>
+function showSport(sport){
+document.getElementById('cricket').classList.toggle('active',sport==='cricket');
+document.getElementById('football').classList.toggle('active',sport==='football');
+const data={
+cricket:[
+'International Cricket',
+'Domestic Cricket'
+],
+football:[
+'International Football',
+'Club Football'
+]
+};
+document.getElementById('matches').innerHTML=
+'<h3>'+ (sport==='cricket'?'🏏 Cricket Matches':'⚽ Football Matches') +'</h3>'+
+data[sport].map(name=>'<div class="card"><div class="tag">MATCH CENTER</div><h3>'+name+'</h3><p>Fixtures and scores will appear here when a sports data source is connected.</p><div class="note">No live score available</div></div>').join('');
+}
+showSport('cricket');
+</script>
+</body>
+</html>
