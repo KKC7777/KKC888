@@ -1,77 +1,39 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KKC888 Login</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#263449}
-header{background:#0754a5;color:white;text-align:center;padding:22px;font-size:27px;font-weight:bold}
-header span{color:#ffdf38}
-main{max-width:420px;margin:25px auto;padding:15px}
-.card{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 3px 12px #0001}
-h2{margin-top:0;color:#0754a5}
-label{display:block;margin:12px 0 6px;font-size:14px}
-input{width:100%;padding:12px;border:1px solid #ccd4df;border-radius:7px;font-size:16px}
-button{width:100%;padding:12px;margin-top:15px;background:#d8202f;color:white;border:0;border-radius:7px;font-size:16px;font-weight:bold}
-.note{font-size:12px;color:#6c7788;line-height:1.5}
-#message{font-size:14px;color:#c21d2b;overflow-wrap:anywhere}
-a{color:#0754a5}
-</style>
-</head>
-<body>
-<header>KKC<span>888</span></header>
-<main>
-<section class="card">
-<h2>Player Login</h2>
-<form id="playerForm">
-<label for="pu">Username</label>
-<input id="pu" required autocomplete="username">
-<label for="pp">Password</label>
-<input id="pp" type="password" required autocomplete="current-password">
-<button type="submit">Player Login</button>
-</form>
-<p class="note">Demo login: any non-empty username with password <b>player123</b>.</p>
-</section>
-
-<section class="card">
-<h2>Management Login</h2>
-<form id="managerForm">
-<label for="mu">Management username</label>
-<input id="mu" required>
-<label for="mp">Password</label>
-<input id="mp" type="password" required>
-<button type="submit">Management Login</button>
-</form>
-<p class="note">Demo credentials: username <b>manager</b>, password <b>admin123</b>.</p>
-</section>
-<p id="message" role="status"></p>
-<p><a href="index.html">← Back to Home</a></p>
-<p class="note">Demo only: these browser-side checks are not secure authentication.</p>
+*{box-sizing:border-box}body{margin:0;font:16px Arial;background:#eef2f7;color:#263449}header{background:#0754a5;color:white;text-align:center;padding:22px;font-size:27px;font-weight:bold}header span{color:#ffdf38}main{max-width:430px;margin:20px auto;padding:14px}.card{background:white;padding:20px;border-radius:10px;margin-bottom:15px}h2{color:#0754a5}input{width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px}button{width:100%;padding:12px;background:#d8202f;color:white;border:0;border-radius:6px;font-weight:bold}.small{font-size:12px;color:#68778a}
+</style></head>
+<body><header>KKC<span>888</span></header><main>
+<div class="card"><h2>Player Login</h2>
+<form id="pf"><label>Username</label><input id="pu" required><label>Password</label><input id="pp" type="password" required><button>Player Login</button></form>
+<p class="small">Demo password: player123</p></div>
+<div class="card"><h2>Management Login</h2>
+<form id="mf"><label>Username</label><input id="mu" required><label>Password</label><input id="mp" type="password" required><button>Management Login</button></form>
+<p class="small">Demo username: manager · Password: admin123</p></div>
+<p id="msg"></p><a href="index.html">Back to Home</a>
+<p class="small">Demo only. This is not secure authentication.</p>
 </main>
 <script>
-document.getElementById("playerForm").addEventListener("submit",function(e){
+document.getElementById("pf").onsubmit=e=>{
  e.preventDefault();
- const username=document.getElementById("pu").value.trim();
- const password=document.getElementById("pp").value;
- if(!username || password!=="player123"){
-  document.getElementById("message").textContent="Player login details sahi nahi hain.";
-  return;
+ const u=document.getElementById("pu").value.trim(),p=document.getElementById("pp").value;
+ if(!u||p!=="player123"){document.getElementById("msg").textContent="Player login details incorrect.";return;}
+ let players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
+ if(!players.some(x=>x.username.toLowerCase()===u.toLowerCase())){
+  players.push({username:u,chips:0});
+  localStorage.setItem("kkc888_players",JSON.stringify(players));
  }
- localStorage.setItem("kkc888_current_user",username);
+ const actual=players.find(x=>x.username.toLowerCase()===u.toLowerCase());
+ localStorage.setItem("kkc888_current_user",actual.username);
  location.href="index.html";
-});
-document.getElementById("managerForm").addEventListener("submit",function(e){
+};
+document.getElementById("mf").onsubmit=e=>{
  e.preventDefault();
- if(document.getElementById("mu").value.trim()==="manager" &&
-    document.getElementById("mp").value==="admin123"){
-  location.href="management.html";
- }else{
-  document.getElementById("message").textContent="Management login details sahi nahi hain.";
- }
-});
-</script>
-</body>
-</html>
+ if(document.getElementById("mu").value.trim()==="manager"&&document.getElementById("mp").value==="admin123")location.href="management.html";
+ else document.getElementById("msg").textContent="Management login details incorrect.";
+};
+</script></body></html>
