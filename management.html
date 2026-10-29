@@ -1,126 +1,45 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KKC888 Management</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#263449}
-header{background:#0754a5;color:white;padding:18px;font-size:23px;font-weight:bold}
-header span{color:#ffdf38}
-nav{background:#d8202f;padding:12px}
-nav a{color:white;text-decoration:none;font-weight:bold}
-main{max-width:850px;margin:auto;padding:14px}
-.card{background:white;padding:17px;border-radius:10px;margin-bottom:15px;box-shadow:0 2px 8px #0001}
-h2{font-size:18px;margin-top:0}
-input{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px;font-size:15px}
-button{background:#0754a5;color:white;border:0;border-radius:6px;padding:11px 14px;font-weight:bold;margin:3px;cursor:pointer}
-.remove{background:#d8202f}
-.small{font-size:12px;color:#6c7788}
-.player,.record{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
-#message{font-weight:bold;color:#137c3b}
-</style>
-</head>
-<body>
-<header>KKC<span>888</span> Management</header>
-<nav><a href="index.html">← Player Home</a></nav>
-<main>
-<section class="card">
-<h2>Management Dashboard</h2>
-<p class="small">Demo virtual coins only. Data is stored in this browser; this is not secure authentication or a shared database.</p>
-<p>Players: <b id="count">0</b></p>
-<p>Total demo chips: <b id="total">0</b></p>
-<p id="message"></p>
-</section>
-
-<section class="card">
-<h2>Add Demo Player</h2>
-<label>Player username</label>
-<input id="newUser" placeholder="e.g. player01">
-<button onclick="addPlayer()">Add Demo Player</button>
-</section>
-
-<section class="card">
-<h2>Virtual Chip Adjustment</h2>
-<label>Player username</label>
-<input id="target" placeholder="e.g. player01">
-<label>Chip amount</label>
-<input id="amount" type="number" min="1" step="1" placeholder="e.g. 100">
-<button onclick="adjust(1)">Add Demo Chips</button>
-<button class="remove" onclick="adjust(-1)">Remove Demo Chips</button>
-</section>
-
-<section class="card">
-<h2>Demo Player List</h2>
-<div id="players"></div>
-</section>
-
-<section class="card">
-<h2>Recent Chip Transactions</h2>
-<div id="activity" class="small"></div>
-</section>
+*{box-sizing:border-box}body{margin:0;font:16px Arial;background:#eef2f7;color:#263449}header{background:#0754a5;color:white;padding:18px;font-size:24px;font-weight:bold}header span{color:#ffdf38}nav{background:#d8202f;padding:12px}nav a{color:white;text-decoration:none;font-weight:bold}main{max-width:800px;margin:auto;padding:14px}.card{background:white;border-radius:10px;padding:17px;margin-bottom:14px}input{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #ccd4df;border-radius:6px}button{padding:11px 14px;background:#0754a5;color:white;border:0;border-radius:6px;margin:3px}.remove{background:#d8202f}.small{font-size:12px;color:#68778a}.item{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
+</style></head>
+<body><header>KKC<span>888</span> Management</header><nav><a href="index.html">← Player Home</a></nav><main>
+<section class="card"><h2>Management Dashboard</h2><p class="small">Demo virtual chips only. Same-browser local data; not secure or shared across devices.</p><p>Players: <b id="count">0</b></p><p>Total chips: <b id="total">0</b></p><p id="msg"></p></section>
+<section class="card"><h3>Add Demo Player</h3><input id="newUser" placeholder="Player username"><button onclick="addPlayer()">Add Player</button></section>
+<section class="card"><h3>Virtual Chip Adjustment</h3><input id="target" placeholder="Player username"><input id="amount" type="number" min="1" step="1" placeholder="Chip amount"><button onclick="adjust(1)">Add Demo Chips</button><button class="remove" onclick="adjust(-1)">Remove Demo Chips</button></section>
+<section class="card"><h3>Demo Player List</h3><div id="players"></div></section>
+<section class="card"><h3>Recent Chip Transactions</h3><div id="history"></div></section>
 </main>
-
 <script>
 let players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
-let activity=JSON.parse(localStorage.getItem("kkc888_activity")||"[]");
-let transactions=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
-
-function save(){
- localStorage.setItem("kkc888_players",JSON.stringify(players));
- localStorage.setItem("kkc888_activity",JSON.stringify(activity));
- localStorage.setItem("kkc888_transactions",JSON.stringify(transactions));
- render();
-}
-function log(text){
- activity.unshift(new Date().toLocaleString()+" — "+text);
- activity=activity.slice(0,50);
-}
+let tx=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
+function persist(){localStorage.setItem("kkc888_players",JSON.stringify(players));localStorage.setItem("kkc888_transactions",JSON.stringify(tx));render();}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function addPlayer(){
- const username=document.getElementById("newUser").value.trim();
- if(!username){alert("Username enter karo.");return;}
- if(players.some(p=>p.username.toLowerCase()===username.toLowerCase())){
-  alert("Ye username pehle se hai.");return;
- }
- players.push({username:username,chips:0});
- log("Player added: "+username);
- document.getElementById("newUser").value="";
- document.getElementById("message").textContent="Demo player add ho gaya.";
- save();
+ const u=document.getElementById("newUser").value.trim();if(!u)return alert("Username enter karo.");
+ if(players.some(p=>p.username.toLowerCase()===u.toLowerCase()))return alert("Player already exists.");
+ players.push({username:u,chips:0});document.getElementById("newUser").value="";persist();document.getElementById("msg").textContent="Player added.";
 }
-function adjust(direction){
- const username=document.getElementById("target").value.trim();
- const amount=Number(document.getElementById("amount").value);
- const p=players.find(p=>p.username.toLowerCase()===username.toLowerCase());
- if(!p){alert("Player list mein pehle player add karo.");return;}
- if(!Number.isSafeInteger(amount)||amount<=0){alert("Valid positive chip amount enter karo.");return;}
- if(direction<0&&Number(p.chips||0)<amount){alert("Itne chips available nahi hain.");return;}
- p.chips=Number(p.chips||0)+direction*amount;
- const entry={
-   username:p.username,
-   type:direction>0?"ADD":"REMOVE",
-   amount:amount,
-   balance:p.chips,
-   date:new Date().toLocaleString()
- };
- transactions.push(entry);
- log((direction>0?"Added ":"Removed ")+amount+" chips "+(direction>0?"to ":"from ")+p.username+"; balance "+p.chips);
- document.getElementById("message").textContent=p.username+" balance: "+p.chips+" demo chips.";
- save();
-}
-function escapeHtml(s){
- return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function adjust(dir){
+ const u=document.getElementById("target").value.trim(),a=Number(document.getElementById("amount").value);
+ const p=players.find(x=>x.username.toLowerCase()===u.toLowerCase());
+ if(!p)return alert("Player pehle add karo.");
+ if(!Number.isSafeInteger(a)||a<=0)return alert("Valid chip amount enter karo.");
+ if(dir<0&&Number(p.chips)<a)return alert("Not enough chips.");
+ p.chips=Number(p.chips||0)+dir*a;
+ tx.push({username:p.username,type:dir>0?"ADD":"REMOVE",amount:a,balance:p.chips,date:new Date().toLocaleString()});
+ localStorage.setItem("kkc888_transactions",JSON.stringify(tx));
+ persist();document.getElementById("msg").textContent="Updated balance: "+p.chips;
 }
 function render(){
  document.getElementById("count").textContent=players.length;
  document.getElementById("total").textContent=players.reduce((s,p)=>s+Number(p.chips||0),0).toLocaleString("en-IN");
- document.getElementById("players").innerHTML=players.length?players.map(p=>"<div class='player'><b>"+escapeHtml(p.username)+"</b><br>Demo chips: "+Number(p.chips||0).toLocaleString("en-IN")+"</div>").join(""):"No players added yet.";
- const recent=transactions.slice(-20).reverse();
- document.getElementById("activity").innerHTML=recent.length?recent.map(t=>"<div class='record'><b>"+escapeHtml(t.username)+"</b> — "+(t.type==="ADD"?"Added ":"Removed ")+Number(t.amount).toLocaleString("en-IN")+" chips<br>Balance after: "+Number(t.balance).toLocaleString("en-IN")+"<br>"+escapeHtml(t.date)+"</div>").join(""):"No chip transactions yet.";
+ document.getElementById("players").innerHTML=players.length?players.map(p=>`<div class="item"><b>${esc(p.username)}</b><br>Demo chips: ${Number(p.chips||0).toLocaleString("en-IN")}</div>`).join(""):"No players yet.";
+ document.getElementById("history").innerHTML=tx.length?tx.slice().reverse().slice(0,30).map(t=>`<div class="item"><b>${esc(t.username)}</b> — ${t.type==="ADD"?"Added":"Removed"} ${Number(t.amount)} chips<br>Balance after: ${Number(t.balance)}<br><span class="small">${esc(t.date)}</span></div>`).join(""):"No transactions yet.";
 }
 render();
-</script>
-</body>
-</html>
+</script></body></html>
