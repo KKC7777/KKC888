@@ -43,13 +43,13 @@ function playerLogin(){
 let u=document.getElementById('player').value.trim();
 let p=document.getElementById('ppass').value;
 if(!u||p!=='player123'){alert('Demo username daalo aur password player123 rakho.');return;}
-alert('Player demo login successful! Username: '+u);
+window.location.href = 'index.html';
 }
 function managerLogin(){
 let u=document.getElementById('manager').value.trim();
 let p=document.getElementById('mpass').value;
 if(u!=='manager'||p!=='admin123'){alert('Demo username: manager, password: admin123');return;}
-alert('Management demo login successful!');
+window.location.href = 'index.html';
 }
 </script>
 </body>
