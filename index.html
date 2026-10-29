@@ -1,72 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KKC888 • Management Demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KKC888 Dashboard</title>
 <style>
-:root{--navy:#17436f;--navy2:#12334d;--red:#c90012;--red2:#92000b;--bg:#ededed;--line:#cbd1d4;--ink:#253c49;--muted:#888;--green:#00a568}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px Arial,Helvetica,sans-serif;color:#263943}.top{background:linear-gradient(#24558a,#14365d);color:white;padding:15px 14px 12px;display:flex;align-items:center;justify-content:space-between;min-height:98px}.brand{font-weight:900;font-style:italic;font-size:25px;letter-spacing:-1px;line-height:1.05}.brand span{background:#e30017;color:#fff;padding:4px 6px;margin-left:3px}.user{text-align:right;font-size:13px;line-height:1.7}.role{background:#202a34;border-radius:5px;padding:3px 8px;margin-right:6px}.nav{display:flex;overflow-x:auto;background:linear-gradient(#f21b25,#a8000b);border-bottom:1px solid #87000a;white-space:nowrap}.nav button{font-size:15px;color:#111;background:transparent;border:0;border-right:1px solid #79000a;padding:15px 17px;cursor:pointer}.nav button.active{color:#fff;background:#bb000b;text-decoration:underline}.wrap{max-width:900px;margin:auto;padding:22px 14px 45px}.toolbar{display:flex;justify-content:flex-end;gap:10px;margin:8px 0 24px;flex-wrap:wrap}.btn{border:1px solid #c6cbd0;background:linear-gradient(#fff,#f1f1f1);border-radius:7px;padding:12px 16px;color:#28343c;font-size:15px;box-shadow:0 1px 3px #0001;cursor:pointer}.btn.primary{background:linear-gradient(#fff,#e7e7e7);font-weight:bold}.btn.red{background:linear-gradient(#ef1a23,#a5000b);color:white;border-color:#9a0008}.summary{background:white;border:1px solid #d2d6d8;box-shadow:0 1px 3px #0001;margin-bottom:24px}.metric{padding:20px 26px;border-bottom:1px solid #cdd1d3}.metric:last-child{border-bottom:0}.label{color:#999;font-weight:bold;margin-bottom:9px}.value{font-size:22px;font-weight:bold;color:#29414d}.negative{color:#c80020}.positive{color:#009d5c}.card{background:white;border:1px solid #cbd0d4;border-radius:9px;overflow:hidden;margin:24px 0;box-shadow:0 2px 7px #0001}.cardhead{background:linear-gradient(90deg,#1e4964,#16354b);color:#fff;font-size:21px;font-weight:bold;padding:15px 18px}.cardbody{padding:20px}.pale{border-radius:13px;padding:25px 28px;margin:22px 0;border:1px solid #d2d6d8;box-shadow:0 3px 9px #0001}.pale.pink{background:linear-gradient(#fff0ef,#f9d8d4)}.pale.green{background:linear-gradient(#eff9e9,#d4ebd0)}.pale h3{margin:0 0 25px;font-size:18px}.pale strong{font-size:36px;color:var(--green)}.pale small{display:block;margin-top:14px;color:#687982}.datebar{border:1px solid #d0d5d9;border-radius:40px;background:linear-gradient(#fff,#f1f1f1);padding:20px;text-align:center;font-weight:bold;box-shadow:0 3px 9px #0001;margin-bottom:25px}.controls{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}.controls .btn{min-width:130px;font-weight:bold}table{width:100%;border-collapse:collapse;min-width:600px}th{background:#e0e8e9;text-align:left;padding:16px 13px;border:1px solid #c7ced1;color:#111}td{padding:14px 13px;border:1px solid #cbd0d2;background:#fff}tr:nth-child(even) td{background:#fafafa}.tablewrap{overflow-x:auto;border:1px solid #d2d5d7;border-radius:6px}.tag{display:inline-block;background:#00ae70;color:white;border-radius:4px;padding:4px 7px;font-size:12px;font-weight:bold;margin-right:6px}.search{width:100%;max-width:310px;padding:12px;border:1px solid #ccc;border-radius:6px;font-size:16px}.tabletop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field label{display:block;font-weight:bold;color:#68757b;font-size:13px;margin-bottom:7px}.field input,.field select{width:100%;padding:12px;border:1px solid #cbd0d4;border-radius:5px;font-size:16px;background:#fff}.notice{background:#fff7df;border:1px solid #e9d59a;border-radius:7px;padding:13px;margin:12px 0;color:#695b32;font-size:14px}.hidden{display:none!important}.muted{color:#899399}.pill{background:#edf1f2;padding:5px 9px;border-radius:20px;font-size:12px}.emptychart{height:150px;display:flex;align-items:center;justify-content:center;color:#a8afb3;border-bottom:1px solid #eee}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tabs button{border:1px solid #ccd1d4;background:#f7f7f7;padding:9px 12px;border-radius:5px}.tabs button.sel{background:#1e4964;color:#fff}.linkbox{overflow-wrap:anywhere;background:#f4f6f7;border:1px dashed #aeb9be;border-radius:5px;padding:12px;margin-top:10px}.foot{text-align:center;color:#899398;font-size:12px;margin-top:30px}
-@media(max-width:520px){.top{min-height:90px;padding:14px 9px}.brand{font-size:21px}.nav button{padding:14px 15px}.wrap{padding:18px 12px 35px}.metric{padding:19px 22px}.pale{padding:23px 25px}.formgrid{grid-template-columns:1fr}.cardhead{font-size:19px}}
+*{box-sizing:border-box}
+body{margin:0;background:#edf1f7;font-family:Arial,sans-serif;color:#172033;padding-bottom:65px}
+header{background:#073b82;color:white;padding:16px;font-size:25px;font-weight:bold;display:flex;justify-content:space-between;align-items:center}
+header small{font-size:11px;display:block;font-weight:normal;margin-top:4px}
+.login{background:#fff;color:#073b82;padding:9px 12px;border-radius:6px;font-size:13px;text-decoration:none}
+nav{display:flex;background:#c92335;overflow:auto}
+nav a{color:white;text-decoration:none;padding:13px 15px;font-size:13px;white-space:nowrap}
+.banner{margin:12px;background:linear-gradient(120deg,#073b82,#1685d5);color:white;border-radius:10px;padding:20px}
+.banner h2{margin:0 0 8px;font-size:22px}
+.banner p{margin:0;font-size:13px}
+.wrap{padding:12px}
+.title{font-size:18px;font-weight:bold;margin:10px 0}
+.balance{background:white;border-radius:10px;padding:16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px #0001}
+.balance strong{font-size:23px;color:#087b45}
+.pill{background:#e5f5ec;color:#087b45;padding:7px 10px;border-radius:5px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:white;padding:15px 10px;border-radius:9px;text-align:center;box-shadow:0 2px 8px #0001}
+.emoji{font-size:29px;margin-bottom:8px}
+.card b{font-size:14px}
+.card p{font-size:11px;color:#657084;margin-bottom:0}
+.section{background:white;padding:15px;border-radius:9px;margin-top:12px}
+.item{padding:12px 0;border-bottom:1px solid #e8ebf0;font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.item:last-child{border:0}
+.tag{color:#087b45;font-weight:bold}
+button{background:#0b559e;color:white;border:0;border-radius:6px;padding:10px 12px;font-weight:bold}
+footer{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:10px 0;z-index:5}
+footer a{text-decoration:none;color:#34415a;text-align:center;font-size:11px}
+footer span{display:block;font-size:19px;margin-bottom:3px}
+.note{font-size:11px;color:#657084;line-height:1.5}
 </style>
 </head>
 <body>
-<header class="top"><div class="brand">KKC <span>888</span><div style="font-size:10px;letter-spacing:2px;margin-top:7px;font-style:normal">VIRTUAL PLAY • DEMO PANEL</div></div><div class="user"><div><span class="role" id="rolebadge">MASTER</span><b id="username">demoMaster</b></div><div>VIRTUAL CHIPS <b id="topbal">1,000</b></div></div></header>
-<nav class="nav" id="nav"><button class="active" data-page="dashboard">Dashboard</button><button data-page="users">Downline List ▾</button><button data-page="account">My Account</button><button data-page="report">My Report ▾</button><button data-page="links">Player Links</button></nav>
-<main class="wrap">
-<section id="page-dashboard">
-<div class="datebar">29 Oct 2026 12:00 AM · 29 Oct 2026 01:55 PM　⌄</div>
-<div class="controls"><button class="btn" onclick="render()">⟳　Refresh</button><button class="btn" onclick="exportUsers()">↥　Export</button><button class="btn" onclick="alert('Demo filter: all dates')">⌄</button></div>
-<div class="pale pink"><h3>Net P/L</h3><strong id="netpl">+0</strong><small>Virtual-chip demo only</small></div>
-<div class="pale green"><h3>Top Sport</h3><div style="font-size:23px">—　<b class="positive">+0</b></div></div>
-<div class="pale pink"><h3>Lowest Sport</h3><div style="font-size:23px">—　<b class="negative">0</b></div></div>
-<div class="card"><div class="cardhead">Sports Profit / Loss</div><div class="emptychart">No demo results yet</div></div>
-<div class="card"><div class="cardhead">Sports Exposure Breakdown</div><div class="emptychart">No exposure in virtual demo</div></div>
-</section>
-<section id="page-users" class="hidden">
-<div class="toolbar"><button class="btn primary" id="addbtn" onclick="showAdd()">♟　Add User</button><button class="btn" onclick="render()">⟳</button></div>
-<div class="summary" id="balance-summary"></div>
-<div class="card"><div class="cardbody">
-<div class="tabletop"><label>Show <select id="pagesize"><option>10</option><option>25</option><option>50</option></select> entries</label><input class="search" id="search" placeholder="Search username..." oninput="renderTable()"></div>
-<div class="tablewrap"><table><thead><tr><th>Username ▲▼</th><th>Credit Ref.</th><th>Balance</th><th>Exposure</th><th>Status</th><th>Actions</th></tr></thead><tbody id="userrows"></tbody></table></div><p class="muted" id="count"></p>
-</div></div>
-<div class="card hidden" id="addcard"><div class="cardhead">Create Downline User</div><div class="cardbody">
-<div class="formgrid"><div class="field"><label>Username / Player ID</label><input id="newname" placeholder="e.g. player102"></div><div class="field"><label>Role</label><select id="newrole"></select></div><div class="field"><label>Starting virtual chips</label><input id="newchips" type="number" min="0" value="1000"></div><div class="field"><label>Demo password (not secure)</label><input id="newpass" placeholder="Optional demo password"></div></div>
-<div class="notice">This is a local prototype. Accounts and links are saved only in this browser page session; no real authentication or server is connected.</div><button class="btn red" onclick="createUser()">Create User</button> <button class="btn" onclick="document.getElementById('addcard').classList.add('hidden')">Cancel</button><div id="newlink"></div>
-</div></div>
-</section>
-<section id="page-account" class="hidden"><div class="card"><div class="cardhead">My Account</div><div class="cardbody"><div class="formgrid"><div class="field"><label>Username</label><input id="accountname" value="demoMaster" readonly></div><div class="field"><label>Role</label><input id="accountrole" value="MASTER" readonly></div><div class="field"><label>Virtual chips</label><input id="accountchips" value="1000" readonly></div></div><p class="notice">Prototype only: do not use real passwords or personal information.</p></div></div></section>
-<section id="page-report" class="hidden"><div class="card"><div class="cardhead">My Report</div><div class="cardbody"><div class="metric"><div class="label">Virtual chip activity</div><div class="value">+0</div></div><div class="metric"><div class="label">Demo sessions</div><div class="value" id="reportcount">0</div></div><p class="muted">No cash, deposits, withdrawals, or cash settlement are supported.</p></div></div></section>
-<section id="page-links" class="hidden"><div class="card"><div class="cardhead">Separate Player Login Links</div><div class="cardbody"><p>Management panel and player page are shown separately in this demo.</p><div class="field"><label>Management panel link (demo)</label><div class="linkbox" id="managementurl"></div><button class="btn" onclick="copyText(location.href+'#panel')">Copy management link</button></div><hr style="border:0;border-top:1px solid #eee;margin:22px 0"><div class="field"><label>Player links</label><div id="playerlinks"></div></div><p class="notice">Unique links are simulated URL fragments, not deployed login routes. Real links require hosting and server-side accounts.</p></div></div></section>
-<div class="foot">KKC888 demo panel • Virtual chips only • Not connected to 65sport</div>
-</main>
-<script>
-const roles=['WHITE LEVEL','SUPER MASTER','MASTER','ADMIN','PLAYER'];
-let current='MASTER', selfchips=1000, users=[
-{id:1,name:'abhi771',role:'MASTER',chips:0,status:'Active',parent:'demoMaster'},
-{id:2,name:'adit45',role:'MASTER',chips:0,status:'Active',parent:'demoMaster'},
-{id:3,name:'dhoni78',role:'MASTER',chips:0,status:'Active',parent:'demoMaster'},
-{id:4,name:'akbhai2200',role:'PLAYER',chips:0,status:'Active',parent:'demoMaster'},
-{id:5,name:'arbind2200',role:'PLAYER',chips:0,status:'Active',parent:'demoMaster'}
-], idseq=6;
-const allowed={'WHITE LEVEL':['SUPER MASTER','MASTER','ADMIN','PLAYER'],'SUPER MASTER':['MASTER','ADMIN','PLAYER'],'MASTER':['ADMIN','PLAYER'],'ADMIN':['PLAYER'],'PLAYER':[]};
-function canCreate(){return allowed[current]||[]}
-function fmt(n){return Number(n).toLocaleString('en-US')}
-function go(page){document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));document.getElementById('page-'+page).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='users')render();if(page==='links')renderLinks()}
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-function showAdd(){if(!canCreate().length){alert('Player role cannot manage accounts.');return}let s=document.getElementById('newrole');s.innerHTML=canCreate().map(r=>`<option>${r}</option>`).join('');document.getElementById('addcard').classList.remove('hidden');document.getElementById('newlink').innerHTML=''}
-function createUser(){let name=document.getElementById('newname').value.trim(),role=document.getElementById('newrole').value,chips=Math.max(0,Number(document.getElementById('newchips').value)||0);if(!name){alert('Enter a username');return}if(users.some(u=>u.name.toLowerCase()===name.toLowerCase())){alert('Username already exists');return}if(!canCreate().includes(role)){alert('You cannot create this role');return}let u={id:idseq++,name,role,chips,status:'Active',parent:'demoMaster'};users.push(u);document.getElementById('newname').value='';document.getElementById('newlink').innerHTML=`<div class="notice">Created demo ID: <b>${esc(name)}</b></div><div class="linkbox" id="createdlink">${esc(location.href.split('#')[0]+'#player='+encodeURIComponent(name))}</div><button class="btn" onclick="copyText(document.getElementById('createdlink').textContent)">Copy this player's demo link</button>`;render();renderLinks()}
-function render(){document.getElementById('topbal').textContent=fmt(selfchips);document.getElementById('balance-summary').innerHTML=[['Total Balance',users.reduce((s,u)=>s+u.chips,0)],['Total Exposure',0],['Available Balance',users.reduce((s,u)=>s+u.chips,0)],['Balance',selfchips],['Total Avail. bal.',selfchips+users.reduce((s,u)=>s+u.chips,0)],['Upline P/L',0]].map(([l,v])=>`<div class="metric"><div class="label">${l}</div><div class="value">VC ${fmt(v)}</div></div>`).join('');renderTable();document.getElementById('accountchips').value=fmt(selfchips);document.getElementById('reportcount').textContent=users.length}
-function renderTable(){let q=(document.getElementById('search')?.value||'').toLowerCase(),list=users.filter(u=>u.name.toLowerCase().includes(q)&&canSee(u));let n=Number(document.getElementById('pagesize')?.value||10);document.getElementById('userrows').innerHTML=list.slice(0,n).map(u=>`<tr><td><span class="tag">${u.role==='PLAYER'?'USER':'AGENT'}</span><br>${esc(u.name)}</td><td>0.00　<a href="#" onclick="credit(${u.id});return false">✎</a>　<a href="#" onclick="details(${u.id});return false">◉</a></td><td>${fmt(u.chips)}</td><td class="negative">(0)</td><td><span class="pill">${u.status}</span></td><td><button class="btn" onclick="credit(${u.id})">Chips</button> <button class="btn" onclick="toggle(${u.id})">${u.status==='Active'?'Disable':'Enable'}</button><button class="btn" onclick="showLink(${u.id})">Link</button></td></tr>`).join('');document.getElementById('count').textContent=`Showing ${Math.min(n,list.length)} of ${list.length} demo accounts`}
-function canSee(u){return current==='WHITE LEVEL'||u.parent==='demoMaster'||current==='SUPER MASTER'&&['MASTER','ADMIN','PLAYER'].includes(u.role)||current==='MASTER'&&['ADMIN','PLAYER'].includes(u.role)||current==='ADMIN'&&u.role==='PLAYER'}
-function credit(id){let u=users.find(x=>x.id===id);let v=prompt(`Add a positive amount or subtract a negative amount of virtual chips for ${u.name}`, '100');if(v===null)return;let amt=Number(v);if(!Number.isFinite(amt)||u.chips+amt<0){alert('Enter a valid amount; balance cannot go below zero.');return}u.chips+=amt;render()}
-function toggle(id){let u=users.find(x=>x.id===id);u.status=u.status==='Active'?'Disabled':'Active';render()}
-function details(id){let u=users.find(x=>x.id===id);alert(`Username: ${u.name}\\nRole: ${u.role}\\nVirtual chips: ${u.chips}\\nStatus: ${u.status}`)}
-function showLink(id){let u=users.find(x=>x.id===id);alert('Player demo link:\\n'+location.href.split('#')[0]+'#player='+encodeURIComponent(u.name))}
-function renderLinks(){document.getElementById('managementurl').textContent=location.href.split('#')[0]+'#panel';document.getElementById('playerlinks').innerHTML=users.filter(u=>u.role==='PLAYER').map(u=>`<div style="border-bottom:1px solid #eee;padding:12px 0"><b>${esc(u.name)}</b><div class="linkbox">${esc(location.href.split('#')[0]+'#player='+encodeURIComponent(u.name))}</div><button class="btn" onclick="copyText('${location.href.split('#')[0]}#player='+encodeURIComponent('${u.name}'))">Copy link</button></div>`).join('')||'<p>No players yet.</p>'}
-function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>alert('Copied')).catch(()=>prompt('Copy this link',t));else prompt('Copy this link',t)}
-function exportUsers(){let csv='username,role,virtual_chips,status\\n'+users.map(u=>`${u.name},${u.role},${u.chips},${u.status}`).join('\\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='kkc888-demo-users.csv';a.click();URL.revokeObjectURL(a.href)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-render();renderLinks();
-</script>
-</body></html>
+<header>
+<div>KKC888<small>SPORTS & GAMES</small></div>
+<a class="login" href="login.html">LOGIN</a>
+</header>
+<nav>
+<a href="#home">HOME</a>
+<a href="#sports">SPORTS</a>
+<a href="#games">GAMES</a>
+<a href="#history">HISTORY</a>
+<a href="#account">ACCOUNT</a>
+</nav>
+<div class="banner" id="home">
+<h2>Welcome to KKC888</h2>
+<p>Your sports and virtual games dashboard</p>
+</div>
+<div class="wrap">
+<div class="title">My Virtual Wallet</div>
+<div class="balance">
+<div><div style="font-size:12px;color:#657084">Demo Virtual Chips</div><strong>1,000</strong></div>
+<span class="pill">DEMO ACCOUNT</span>
+</div>
+<div class="title" id="sports">Sports</div>
+<div class="grid">
+<div class="card"><div class="emoji">🏏</div><b>Cricket</b><p>Live scores coming soon</p></div>
+<div class="card"><div class="emoji">⚽</div><b>Football</b><p>Sports section</p></div>
+<div class="card"><div class="emoji">🎾</div><b>Tennis</b><p>Sports section</p></div>
+<div class="card"><div class="emoji">🏆</div><b>All Sports</b><p>More sports coming soon</p></div>
+</div>
+<div class="title" id="games">Games</div>
+<div class="grid">
+<div class="card"><div class="emoji">🎮</div><b>Virtual Games</b><p>Demo section</p></div>
+<div class="card"><div class="emoji">🎯</div><b>Quick Play</b><p>Coming soon</p></div>
+</div>
+<div class="section" id="history">
+<div class="title" style="margin-top:0">Recent Activity</div>
+<div class="item"><span>Demo balance created</span><span class="tag">+1,000</span></div>
+<div class="item"><span>Game history</span><span>None yet</span></div>
+<div class="item"><span>Transaction history</span><span>None yet</span></div>
+</div>
+<div class="section" id="account">
+<div class="title" style="margin-top:0">My Account</div>
+<div class="item"><span>Account type</span><span>Demo Player</span></div>
+<div class="item"><span>Management hierarchy</span><span>Coming soon</span></div>
+<a href="login.html"><button>Open Login Page</button></a>
+</div>
+<div class="section">
+<p class="note">Demo website only. Virtual chips have no cash value. This page does not process real-money deposits, withdrawals or betting. Login, shared database and live sports data are not connected yet.</p>
+</div>
+</div>
+<footer>
+<a href="#home"><span>🏠</span>Home</a>
+<a href="#sports"><span>🏏</span>Sports</a>
+<a href="#games"><span>🎮</span>Games</a>
+<a href="#history"><span>📋</span>History</a>
+<a href="#account"><span>👤</span>Account</a>
+</footer>
+</body>
+</html>
