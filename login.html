@@ -1,56 +1,80 @@
-<!doctype html>
-
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KKC888 Login</title>
 <style>
-body{margin:0;font-family:Arial;background:#edf3fa;color:#172b45}
-header{background:#07366b;color:white;padding:22px;text-align:center;font-size:28px;font-weight:bold}
-main{max-width:420px;margin:25px auto;padding:16px}
-.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 4px 15px #0001}
-h2{margin-top:0}
-input{box-sizing:border-box;width:100%;padding:13px;margin:7px 0 14px;border:1px solid #ccd6e3;border-radius:8px}
-button{width:100%;padding:13px;background:#1265b5;color:white;border:0;border-radius:8px;font-weight:bold}
-.manager{background:#cf2637}
-.note{font-size:12px;color:#68778b;line-height:1.5}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#edf2f8;color:#172033}
+header{background:#073b82;color:white;text-align:center;padding:22px;font-size:28px;font-weight:bold}
+header p{font-size:12px;font-weight:normal;margin:6px 0 0}
+.container{max-width:430px;margin:24px auto;padding:0 14px}
+.card{background:white;padding:22px;margin-bottom:18px;border-radius:12px;box-shadow:0 3px 12px #0001}
+h2{margin:0 0 18px;font-size:20px;color:#073b82}
+label{display:block;font-size:13px;margin:12px 0 6px}
+input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:16px}
+button{width:100%;border:0;border-radius:7px;padding:13px;margin-top:16px;background:#073b82;color:white;font-size:16px;font-weight:bold}
+.management button{background:#bd2637}
+.message{font-size:13px;margin-top:12px;line-height:1.5}
+.back{text-align:center;margin:20px}
+.back a{color:#073b82}
+small{color:#657084}
 </style>
 </head>
 <body>
-<header>KKC888</header>
-<main>
+<header>KKC888<p>SPORTS & GAMES</p></header>
+<div class="container">
 <div class="card">
 <h2>Player Login</h2>
-<label>Username</label>
-<input id="player" placeholder="Enter any username">
-<label>Demo password</label>
-<input id="ppass" type="password" placeholder="player123">
-<button onclick="playerLogin()">Login as Player</button>
+<form id="playerForm">
+<label for="playerUser">Username</label>
+<input id="playerUser" type="text" placeholder="Enter username" required>
+<label for="playerPass">Password</label>
+<input id="playerPass" type="password" placeholder="Enter password" required>
+<button type="submit">Login as Player</button>
+</form>
+<div id="playerMessage" class="message"></div>
+</div>
+<div class="card management">
+<h2>Management Login</h2>
+<form id="managerForm">
+<label for="managerUser">Management Username</label>
+<input id="managerUser" type="text" placeholder="Enter username" required>
+<label for="managerPass">Password</label>
+<input id="managerPass" type="password" placeholder="Enter password" required>
+<button type="submit">Login as Management</button>
+</form>
+<div id="managerMessage" class="message"></div>
 </div>
 <div class="card">
-<h2>Management Login</h2>
-<label>Username</label>
-<input id="manager" placeholder="manager">
-<label>Demo password</label>
-<input id="mpass" type="password" placeholder="admin123">
-<button class="manager" onclick="managerLogin()">Login as Management</button>
+<b>Demo login details</b>
+<p><small>Player: koi bhi username, password player123</small></p>
+<p><small>Management: username manager, password admin123</small></p>
+<p><small>Demo only — real accounts are not connected.</small></p>
 </div>
-<p class="note">Demo only. No real-money transactions. This page does not provide secure authentication; do not use real passwords.</p>
-</main>
+<div class="back"><a href="index.html">← Back to Dashboard</a></div>
+</div>
 <script>
-function playerLogin(){
-let u=document.getElementById('player').value.trim();
-let p=document.getElementById('ppass').value;
-if(!u||p!=='player123')window.location.href = 'index.html';'Demo username daalo aur password player123 rakho.');return;}
-window.location.href = 'index.html';
-}
-function managerLogin(){
-let u=document.getElementById('manager').value.trim();
-let p=document.getElementById('mpass').value;
-if(u!=='manager'||p!=='admin123'){window.location.href = 'index.html';'Demo username: manager, password: admin123');return;}
-window.location.href = 'index.html';
-}
+document.getElementById("playerForm").addEventListener("submit",function(event){
+ event.preventDefault();
+ const username=document.getElementById("playerUser").value.trim();
+ const password=document.getElementById("playerPass").value;
+ if(username.length>0 && password==="player123"){
+  window.location.href="index.html";
+ }else{
+  document.getElementById("playerMessage").textContent="Login failed. Username bharo aur password player123 use karo.";
+ }
+});
+document.getElementById("managerForm").addEventListener("submit",function(event){
+ event.preventDefault();
+ const username=document.getElementById("managerUser").value.trim();
+ const password=document.getElementById("managerPass").value;
+ if(username==="manager" && password==="admin123"){
+  window.location.href="index.html";
+ }else{
+  document.getElementById("managerMessage").textContent="Login failed. Username manager aur password admin123 use karo.";
+ }
+});
 </script>
 </body>
 </html>
