@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KKC888 Login</title>
 <style>
 *{box-sizing:border-box}
@@ -15,7 +15,7 @@ label{display:block;font-size:13px;margin:12px 0 6px}
 input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:16px}
 button{width:100%;border:0;border-radius:7px;padding:13px;margin-top:16px;background:#073b82;color:white;font-size:16px;font-weight:bold}
 .management button{background:#bd2637}
-.message{font-size:13px;margin-top:12px;line-height:1.5}
+.message{font-size:13px;margin-top:12px;line-height:1.5;color:#bd2637}
 .back{text-align:center;margin:20px}
 .back a{color:#073b82}
 small{color:#657084}
@@ -34,8 +34,7 @@ small{color:#657084}
 <button type="submit">Login as Player</button>
 </form>
 <div id="playerMessage" class="message"></div>
-</div>
-<div class="card management">
+</div><div class="card management">
 <h2>Management Login</h2>
 <form id="managerForm">
 <label for="managerUser">Management Username</label>
@@ -45,36 +44,36 @@ small{color:#657084}
 <button type="submit">Login as Management</button>
 </form>
 <div id="managerMessage" class="message"></div>
-</div>
-<div class="card">
+</div><div class="card">
 <b>Demo login details</b>
 <p><small>Player: koi bhi username, password player123</small></p>
 <p><small>Management: username manager, password admin123</small></p>
-<p><small>Demo only — real accounts are not connected.</small></p>
+<p><small>Demo only — secure accounts are not connected.</small></p>
 </div>
 <div class="back"><a href="index.html">← Back to Dashboard</a></div>
-</div>
-<script>
+</div><script>
 document.getElementById("playerForm").addEventListener("submit",function(event){
  event.preventDefault();
  const username=document.getElementById("playerUser").value.trim();
  const password=document.getElementById("playerPass").value;
+
  if(username.length>0 && password==="player123"){
   window.location.href="index.html";
  }else{
-  document.getElementById("playerMessage").textContent="Login failed. Username bharo aur password player123 use karo.";
+  document.getElementById("playerMessage").textContent="Login failed. Koi username aur password player123 use karo.";
  }
 });
+
 document.getElementById("managerForm").addEventListener("submit",function(event){
  event.preventDefault();
  const username=document.getElementById("managerUser").value.trim();
  const password=document.getElementById("managerPass").value;
+
  if(username==="manager" && password==="admin123"){
-  window.location.href="index.html";
+  window.location.href="management.html";
  }else{
   document.getElementById("managerMessage").textContent="Login failed. Username manager aur password admin123 use karo.";
  }
 });
-</script>
-</body>
+</script></body>
 </html>
