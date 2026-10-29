@@ -1,79 +1,77 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KKC888 Login</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#edf2f8;color:#172033}
-header{background:#073b82;color:white;text-align:center;padding:22px;font-size:28px;font-weight:bold}
-header p{font-size:12px;font-weight:normal;margin:6px 0 0}
-.container{max-width:430px;margin:24px auto;padding:0 14px}
-.card{background:white;padding:22px;margin-bottom:18px;border-radius:12px;box-shadow:0 3px 12px #0001}
-h2{margin:0 0 18px;font-size:20px;color:#073b82}
-label{display:block;font-size:13px;margin:12px 0 6px}
-input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:16px}
-button{width:100%;border:0;border-radius:7px;padding:13px;margin-top:16px;background:#073b82;color:white;font-size:16px;font-weight:bold}
-.management button{background:#bd2637}
-.message{font-size:13px;margin-top:12px;line-height:1.5;color:#bd2637}
-.back{text-align:center;margin:20px}
-.back a{color:#073b82}
-small{color:#657084}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f7;color:#263449}
+header{background:#0754a5;color:white;text-align:center;padding:22px;font-size:27px;font-weight:bold}
+header span{color:#ffdf38}
+main{max-width:420px;margin:25px auto;padding:15px}
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 3px 12px #0001}
+h2{margin-top:0;color:#0754a5}
+label{display:block;margin:12px 0 6px;font-size:14px}
+input{width:100%;padding:12px;border:1px solid #ccd4df;border-radius:7px;font-size:16px}
+button{width:100%;padding:12px;margin-top:15px;background:#d8202f;color:white;border:0;border-radius:7px;font-size:16px;font-weight:bold}
+.note{font-size:12px;color:#6c7788;line-height:1.5}
+#message{font-size:14px;color:#c21d2b;overflow-wrap:anywhere}
+a{color:#0754a5}
 </style>
 </head>
 <body>
-<header>KKC888<p>SPORTS & GAMES</p></header>
-<div class="container">
-<div class="card">
+<header>KKC<span>888</span></header>
+<main>
+<section class="card">
 <h2>Player Login</h2>
 <form id="playerForm">
-<label for="playerUser">Username</label>
-<input id="playerUser" type="text" placeholder="Enter username" required>
-<label for="playerPass">Password</label>
-<input id="playerPass" type="password" placeholder="Enter password" required>
-<button type="submit">Login as Player</button>
+<label for="pu">Username</label>
+<input id="pu" required autocomplete="username">
+<label for="pp">Password</label>
+<input id="pp" type="password" required autocomplete="current-password">
+<button type="submit">Player Login</button>
 </form>
-<div id="playerMessage" class="message"></div>
-</div><div class="card management">
+<p class="note">Demo login: any non-empty username with password <b>player123</b>.</p>
+</section>
+
+<section class="card">
 <h2>Management Login</h2>
 <form id="managerForm">
-<label for="managerUser">Management Username</label>
-<input id="managerUser" type="text" placeholder="Enter username" required>
-<label for="managerPass">Password</label>
-<input id="managerPass" type="password" placeholder="Enter password" required>
-<button type="submit">Login as Management</button>
+<label for="mu">Management username</label>
+<input id="mu" required>
+<label for="mp">Password</label>
+<input id="mp" type="password" required>
+<button type="submit">Management Login</button>
 </form>
-<div id="managerMessage" class="message"></div>
-</div><div class="card">
-<b>Demo login details</b>
-<p><small>Player: koi bhi username, password player123</small></p>
-<p><small>Management: username manager, password admin123</small></p>
-<p><small>Demo only — secure accounts are not connected.</small></p>
-</div>
-<div class="back"><a href="index.html">← Back to Dashboard</a></div>
-</div><script>
-document.getElementById("playerForm").addEventListener("submit",function(event){
- event.preventDefault();
- const username=document.getElementById("playerUser").value.trim();
- const password=document.getElementById("playerPass").value;
-
- if(username.length>0 && password==="player123"){
-  window.location.href="index.html";
+<p class="note">Demo credentials: username <b>manager</b>, password <b>admin123</b>.</p>
+</section>
+<p id="message" role="status"></p>
+<p><a href="index.html">← Back to Home</a></p>
+<p class="note">Demo only: these browser-side checks are not secure authentication.</p>
+</main>
+<script>
+document.getElementById("playerForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ const username=document.getElementById("pu").value.trim();
+ const password=document.getElementById("pp").value;
+ if(!username || password!=="player123"){
+  document.getElementById("message").textContent="Player login details sahi nahi hain.";
+  return;
+ }
+ localStorage.setItem("kkc888_current_user",username);
+ location.href="index.html";
+});
+document.getElementById("managerForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ if(document.getElementById("mu").value.trim()==="manager" &&
+    document.getElementById("mp").value==="admin123"){
+  location.href="management.html";
  }else{
-  document.getElementById("playerMessage").textContent="Login failed. Koi username aur password player123 use karo.";
+  document.getElementById("message").textContent="Management login details sahi nahi hain.";
  }
 });
-
-document.getElementById("managerForm").addEventListener("submit",function(event){
- event.preventDefault();
- const username=document.getElementById("managerUser").value.trim();
- const password=document.getElementById("managerPass").value;
-
- if(username==="manager" && password==="admin123"){
-  window.location.href="management.html";
- }else{
-  document.getElementById("managerMessage").textContent="Login failed. Username manager aur password admin123 use karo.";
- }
-});
-</script></body>
+</script>
+</body>
 </html>
