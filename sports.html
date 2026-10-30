@@ -24,6 +24,7 @@ h3{margin:12px}
 main{padding-bottom:70px}
 .error{color:#b42318}
 .refresh{margin:12px;background:#073b83;color:white;border:0;padding:10px 14px;border-radius:7px}
+.series{margin:12px 12px 4px;font-weight:bold;color:#073b83;font-size:15px}
 </style>
 </head>
 <body>
@@ -48,61 +49,202 @@ main{padding-bottom:70px}
 <a href="sports.html">🎮<br>Games</a>
 <a href="login.html">👤<br>Account</a>
 </div>
+
 <script>
 const API="https://soft-band-105ekkc888-football-api.kunalchoudhary-828201.workers.dev";
 let mode="cl";
+
 function setMode(s){
 mode=s;
 document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
 document.getElementById(s).classList.add("active");
-document.getElementById("heading").textContent=({cl:"Cricket Live",cu:"Cricket Upcoming",fl:"Football Live",fu:"Football Upcoming"})[s];
+document.getElementById("heading").textContent=({
+cl:"Cricket Live",
+cu:"Cricket Upcoming",
+fl:"Football Live",
+fu:"Football Upcoming"
+})[s];
 loadCurrent();
 }
+
 function esc(s){
-return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
 }
+
+function showMessage(message){
+document.getElementById("matches").innerHTML=
+'<div class="match">'+esc(message)+'</div>';
+}
+
 function renderCricket(d){
 let a=Array.isArray(d.data)?d.data:[];
-let list=mode==="cl"?a.filter(m=>m.matchStarted===true&&m.matchEnded!==true):a.filter(m=>m.matchStarted===false&&m.matchEnded!==true);
+let list=mode==="cl"
+?a.filter(m=>m.matchStarted===true&&m.matchEnded!==true)
+:a.filter(m=>m.matchStarted===false&&m.matchEnded!==true);
+
 if(!list.length){
-document.getElementById("matches").innerHTML='<div class="match">Abhi is category mein koi match available nahi hai.</div>';
+showMessage("Abhi is category mein koi match available nahi hai.");
 return;
 }
+
 document.getElementById("matches").innerHTML=list.map(m=>
-'<div class="match"><div class="matchname">'+esc(m.name||"Cricket Match")+'</div><div class="muted">'+esc(m.matchType||"")+' • '+esc(m.venue||"")+'</div>'+
-(Array.isArray(m.score)?m.score.map(x=>'<div class="score">'+esc(x.inning||"Innings")+': <b>'+esc(x.r)+" / "+esc(x.w)+'</b> ('+esc(x.o)+' overs)</div>').join(""):"")+
-'<div class="status">'+esc(m.status||"Status unavailable")+'</div><div class="muted">'+(m.matchEnded?"Completed":m.matchStarted?"In progress":"Upcoming")+'</div></div>'
+'<div class="match">'+
+'<div class="matchname">'+esc(m.name||"Cricket Match")+'</div>'+
+'<div class="muted">'+esc(m.matchType||"")+' • '+esc(m.venue||"")+'</div>'+
+(Array.isArray(m.score)?m.score.map(x=>
+'<div class="score">'+esc(x.inning||"Innings")+': <b>'+
+esc(x.r)+" / "+esc(x.w)+'</b> ('+esc(x.o)+' overs)</div>'
+).join(""):"")+
+'<div class="status">'+esc(m.status||"Status unavailable")+'</div>'+
+'<div class="muted">'+(m.matchEnded?"Completed":m.matchStarted?"In progress":"Upcoming")+'</div>'+
+'</div>'
 ).join("");
 }
+
+async function getJSON(url){
+let r=await fetch(url);
+let d=await r.json();
+if(!r.ok||d.status==="failure"||d.error)
+throw Error(d.reason||d.error||"API error");
+return d;
+}
+
+async function loadCricketUpcoming(){
+const box=document.getElementById("matches");
+box.innerHTML='<div class="match">Tournaments aur matches load ho rahe hain...</div>';
+
+let seriesData=await getJSON(API+"/cricket-series");
+let series=Array.isArray(seriesData.data)?seriesData.data:[];
+
+if(!series.length){
+showMessage("Abhi tournament list available nahi hai.");
+return;
+}
+
+// Sirf future aur current series select karo.
+let today=new Date().toISOString().slice(0,10);
+series=series.filter(s=>{
+let start=String(s.startDate||"").slice(0,10);
+let end=String(s.endDate||"").slice(0,10);
+return !start||start>=today||!end||end>=today;
+});
+
+// Series ki latest aur relevant list se matches collect karo.
+series=series.slice(0,15);
+
+let allMatches=[];
+let errors=0;
+
+for(let i=0;i<series.length;i++){
+let s=series[i];
+try{
+let d=await getJSON(
+API+"/cricket-series-info?id="+encodeURIComponent(s.id)
+);
+let matches=Array.isArray(d.data?.matchList)?d.data.matchList:[];
+matches.forEach(m=>{
+if(m.matchStarted===false&&m.matchEnded!==true){
+allMatches.push({
+...m,
+seriesName:s.name
+});
+}
+});
+}catch(e){
+errors++;
+}
+}
+
+// Duplicate match IDs remove karo.
+let unique=new Map();
+allMatches.forEach(m=>{
+if(m.id)unique.set(m.id,m);
+});
+
+let matches=[...unique.values()];
+
+// Date ke hisaab se sort karo.
+matches.sort((a,b)=>
+new Date(a.date||"2099-01-01")-
+new Date(b.date||"2099-01-01")
+);
+
+if(!matches.length){
+showMessage(
+errors
+?"Kuch series ka data load nahi hua. Refresh karke dobara try karein."
+:"Selected tournaments mein abhi upcoming matches available nahi hain."
+);
+return;
+}
+
+box.innerHTML=matches.map(m=>
+'<div class="match">'+
+'<div class="series">'+esc(m.seriesName||"Cricket Tournament")+'</div>'+
+'<div class="matchname">'+esc(m.name||"Cricket Match")+'</div>'+
+'<div class="score">'+
+(Array.isArray(m.teams)?m.teams.map(esc).join(" vs "):"Teams TBA")+
+'</div>'+
+'<div class="muted">'+esc(m.matchType||"")+
+' • '+esc(m.venue||"Venue TBA")+'</div>'+
+'<div class="status">'+esc(m.status||"Upcoming")+'</div>'+
+'<div class="muted">'+esc(m.date||"Date TBA")+'</div>'+
+'</div>'
+).join("");
+
+}
+
 async function loadCurrent(){
 let box=document.getElementById("matches");
 box.innerHTML='<div class="match">Matches load ho rahe hain...</div>';
+
 try{
-if(mode==="cl"||mode==="cu"){
-let endpoint=mode==="cl"?"/cricket":"/cricket-upcoming";
-let r=await fetch(API+endpoint);
-let d=await r.json();
-if(!r.ok||d.status==="failure"||d.error)throw Error(d.reason||d.error||"Cricket API error");
+if(mode==="cl"){
+let d=await getJSON(API+"/cricket");
 renderCricket(d);
 return;
 }
-let endpoint=mode==="fl"?"/live":"/football-upcoming";
-let r=await fetch(API+endpoint);
-let d=await r.json();
-if(!r.ok||d.errors&&Object.keys(d.errors).length)throw Error(JSON.stringify(d.errors));
-let a=Array.isArray(d.response)?d.response:[];
-if(mode==="fu")a=a.filter(m=>["NS","TBD"].includes(m.fixture?.status?.short));
-if(!a.length){
-box.innerHTML='<div class="match">Abhi football matches ka data available nahi hai. API limit ya league schedule check karein.</div>';
+
+if(mode==="cu"){
+await loadCricketUpcoming();
 return;
 }
+
+let endpoint=mode==="fl"?"/live":"/football-upcoming";
+let d=await getJSON(API+endpoint);
+let a=Array.isArray(d.response)?d.response:[];
+
+if(mode==="fu"){
+a=a.filter(m=>["NS","TBD"].includes(m.fixture?.status?.short));
+}
+
+if(!a.length){
+showMessage("Abhi football matches ka data available nahi hai.");
+return;
+}
+
 box.innerHTML=a.map(m=>
-'<div class="match"><div class="matchname">'+esc(m.league?.name||"Football")+'</div><div class="score">'+esc(m.teams?.home?.name)+' <b>'+esc(m.goals?.home??"-")+' - '+esc(m.goals?.away??"-")+'</b> '+esc(m.teams?.away?.name)+'</div><div class="status">'+esc(m.fixture?.status?.long||"Scheduled")+(m.fixture?.status?.elapsed!=null?" • "+esc(m.fixture.status.elapsed)+" min":"")+'</div></div>'
+'<div class="match">'+
+'<div class="matchname">'+esc(m.league?.name||"Football")+'</div>'+
+'<div class="score">'+esc(m.teams?.home?.name)+
+' <b>'+esc(m.goals?.home??"-")+' - '+
+esc(m.goals?.away??"-")+'</b> '+
+esc(m.teams?.away?.name)+'</div>'+
+'<div class="status">'+
+esc(m.fixture?.status?.long||"Scheduled")+
+(m.fixture?.status?.elapsed!=null?
+" • "+esc(m.fixture.status.elapsed)+" min":"")+
+'</div></div>'
 ).join("");
+
 }catch(e){
-box.innerHTML='<div class="match error">Matches load nahi hue: '+esc(e.message)+'<p class="muted">Thodi der baad Refresh Scores dabayein.</p></div>';
+showMessage("Matches load nahi hue: "+e.message+
+". Thodi der baad Refresh Scores dabayein.");
 }
 }
+
 loadCurrent();
 setInterval(loadCurrent,300000);
 </script>
