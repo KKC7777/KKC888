@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KKC888 - Cricket Live</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#fff;font-family:Arial,sans-serif;padding-bottom:65px}
+header{background:#071426;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold}.logo span{color:#ffca28}
+header a{color:white;text-decoration:none;font-size:12px}
+main{max-width:800px;margin:auto;padding:12px}
+.card{background:#1b2a40;border:1px solid #293b54;border-radius:10px;padding:15px;margin-bottom:13px}
+.title{font-size:19px;font-weight:bold;margin-bottom:12px}
+.live{color:#ff5365;font-size:11px;font-weight:bold}
+.match{background:#24364f;border-radius:8px;padding:14px;margin-bottom:12px}
+.match-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#b4c3d6;margin-bottom:13px}
+.team{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:14px;font-weight:bold}
+.score{font-size:18px;color:#ffca28}
+.status{font-size:12px;color:#9fb0c5;margin-top:10px;line-height:1.5}
+.refresh{background:#d82035;color:white;border:0;border-radius:6px;padding:10px 14px;font-weight:bold}
+.note{font-size:11px;color:#9fb0c5;line-height:1.5}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#071426;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid #293b54}
+.bottom a{color:#d6e2f0;text-decoration:none;font-size:11px}
+.error{color:#ff8792;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">KKC<span>888</span></div>
+ <a href="index.html">← HOME</a>
+</header>
+
+<main>
+ <section class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+   <div class="title">🏏 Cricket Live Scores</div>
+   <button class="refresh" onclick="loadMatches()">↻</button>
+  </div>
+  <div class="note">Cricket matches from the connected data source.</div>
+  <p id="updated" class="note">Loading matches...</p>
+ </section>
+
+ <section class="card">
+  <div class="title">🔴 LIVE MATCHES</div>
+  <div id="matches">
+   <p class="note">Loading live cricket matches...</p>
+  </div>
+ </section>
+
+ <p class="note">Scores and match information are supplied by the connected cricket data provider. Updates depend on provider availability.</p>
+</main>
+
+<div class="bottom">
+ <a href="index.html">⌂ Home</a>
+ <a href="cricket-live.html">🏏 Cricket</a>
+ <a href="sports.html">⚽ Sports</a>
+ <a href="match.html">📊 Match</a>
+</div>
+
+<script>
+const API="https://soft-band-105ekkc888-football-api.kunalchoudhary-828201.workers.dev";
+
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function scoreText(team){
+ if(!team)return "Score unavailable";
+ if(typeof team==="string")return team;
+ if(Array.isArray(team)){
+  return team.map(x=>typeof x==="string"?x:
+   [x.inning,x.r,x.w,x.o].filter(v=>v!==undefined&&v!==null&&v!=="").join(" ")
+  ).filter(Boolean).join(" | ")||"Score unavailable";
+ }
+ return [team.inning,team.r,team.w,team.o]
+  .filter(v=>v!==undefined&&v!==null&&v!=="").join(" ")||"Score unavailable";
+}
+
+function renderMatches(data){
+ const root=document.getElementById("matches");
+ let list=Array.isArray(data)?data:
+  data?.data||data?.matches||data?.response||[];
+
+ if(!Array.isArray(list))list=[];
+
+ if(!list.length){
+  root.innerHTML='<p class="note">Abhi koi live match available nahi hai.</p>';
+  return;
+ }
+
+ root.innerHTML=list.map(m=>{
+  const teams=m.teams||[];
+  const team1=teams[0]||m.team1||m.homeTeam?.name||"Team 1";
+  const team2=teams[1]||m.team2||m.awayTeam?.name||"Team 2";
+  const scores=m.score||[];
+  const s1=scores[0]||m.score1;
+  const s2=scores[1]||m.score2;
+  const status=m.status||m.matchStatus||"Match information";
+  const name=m.name||m.matchName||"Cricket Match";
+  const venue=m.venue||"";
+  const date=m.dateTimeGMT||m.date||"";
+
+  return `
+   <div class="match">
+    <div class="match-head">
+     <span>🏏 ${safe(m.matchType||"CRICKET")}</span>
+     <span class="live">● LIVE / STATUS</span>
+    </div>
+    <div class="note">${safe(name)}</div>
+    <div class="team">
+     <span>${safe(team1)}</span>
+     <span class="score">${safe(scoreText(s1))}</span>
+    </div>
+    <div class="team">
+     <span>${safe(team2)}</span>
+     <span class="score">${safe(scoreText(s2))}</span>
+    </div>
+    <div class="status">${safe(status)}</div>
+    ${venue?`<div class="note">📍 ${safe(venue)}</div>`:""}
+    ${date?`<div class="note">🕒 ${safe(date)}</div>`:""}
+   </div>
+  `;
+ }).join("");
+}
+
+async function loadMatches(){
+ const root=document.getElementById("matches");
+ root.innerHTML='<p class="note">Refreshing live scores...</p>';
+
+ try{
+  const response=await fetch(API+"/cricket");
+  if(!response.ok)throw new Error("Server error: "+response.status);
+
+  const result=await response.json();
+  if(result.error)throw new Error(result.error);
+
+  renderMatches(result);
+  document.getElementById("updated").textContent=
+   "Last updated: "+new Date().toLocaleTimeString("en-IN");
+
+ }catch(error){
+  root.innerHTML='<p class="error">Cricket data load nahi hua. Internet ya API service check karo.</p><p class="note">'+safe(error.message)+'</p>';
+  document.getElementById("updated").textContent="Update failed";
+ }
+}
+
+loadMatches();
+setInterval(loadMatches,60000);
+</script>
+</body>
+</html>
