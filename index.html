@@ -1,55 +1,286 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KKC888 Player</title>
+<title>KKC888 - Player</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font:16px Arial;background:#eef2f7;color:#263449;padding-bottom:65px}
-header{background:#0754a5;color:white;padding:18px;font-size:25px;font-weight:bold}header span{color:#ffdf38}
-nav{display:flex;background:#d8202f;overflow:auto}nav a{color:white;padding:13px 10px;text-decoration:none;font-size:12px;font-weight:bold;white-space:nowrap}
-main{max-width:800px;margin:auto;padding:13px}.card{background:white;border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 7px #0001}
-.balance{background:linear-gradient(120deg,#0754a5,#1688e8);color:white}.coins{font-size:30px;font-weight:bold;margin:10px 0}
-.small{font-size:12px;color:#68778a}.transaction{padding:12px 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between;gap:10px}.plus{color:green;font-weight:bold}.minus{color:#d8202f;font-weight:bold}
-button{background:#d8202f;color:white;border:0;border-radius:6px;padding:10px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid #ddd}.bottom a{font-size:11px;text-decoration:none;color:#0754a5}
+*{box-sizing:border-box}
+body{margin:0;background:#101827;color:#f4f7fb;font-family:Arial,sans-serif;padding-bottom:75px}
+header{background:#071426;padding:15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #26364d}
+.logo{font-size:26px;font-weight:900;color:white}.logo span{color:#ffca28}
+.header-right{font-size:12px;color:#aab8ca}
+nav{display:flex;overflow-x:auto;background:#17263c;white-space:nowrap}
+nav a{padding:14px 16px;color:#d8e2ef;text-decoration:none;font-size:12px;font-weight:bold}
+nav a:first-child{background:#d82035;color:white}
+main{max-width:850px;margin:auto;padding:12px}
+.card{background:#1b2a40;border:1px solid #293b54;border-radius:10px;padding:14px;margin-bottom:13px}
+.balance{background:linear-gradient(120deg,#0754a5,#087fc6);border:0}
+.balance-top{display:flex;justify-content:space-between;font-size:12px}
+.coins{font-size:29px;font-weight:bold;margin:9px 0}
+.demo{font-size:10px;background:#ffca28;color:#172033;padding:5px 8px;border-radius:4px;font-weight:bold}
+.section-title{font-size:17px;font-weight:bold;margin:4px 0 13px}
+.sports{display:flex;gap:9px;overflow:auto}
+.sport{min-width:75px;text-align:center;background:#253750;padding:12px 8px;border-radius:8px;font-size:12px}
+.sport b{display:block;font-size:23px;margin-bottom:6px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{background:#253750;color:white;border:0;padding:10px 15px;border-radius:6px;font-weight:bold}
+.tab.active{background:#d82035}
+.match{background:#24364f;border-radius:8px;padding:13px;margin-bottom:10px}
+.match-head{display:flex;justify-content:space-between;font-size:11px;color:#aebed1;margin-bottom:12px}
+.live{color:#ff5365;font-weight:bold}
+.teams{font-size:14px;font-weight:bold;line-height:1.8}
+.odds{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.odd{border:0;border-radius:5px;padding:10px;text-align:center;color:#142033;font-weight:bold}
+.back{background:#9bd5ff}.lay{background:#f4b3c3}
+.odd small{display:block;font-size:10px;margin-top:4px}
+.note{font-size:11px;color:#9fb0c5;line-height:1.5}
+button{cursor:pointer}
+.games-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.game{background:#253750;border-radius:8px;padding:17px;text-align:center}
+.game span{font-size:25px;display:block;margin-bottom:7px}
+.transaction{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #34445a;font-size:12px}
+.plus{color:#48d69b}.minus{color:#ff6577}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#071426;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid #293b54}
+.bottom a{color:#d6e2f0;text-decoration:none;font-size:11px;text-align:center}
+.bottom a:first-child{color:#ffca28}
+button.action{background:#d82035;color:white;border:0;padding:10px 14px;border-radius:6px}
+input{width:100%;padding:12px;background:#101d30;color:white;border:1px solid #52647b;border-radius:6px;margin:8px 0}
+#slip{display:none}
 </style>
 </head>
 <body>
-<header>KKC<span>888</span></header>
-<nav><a href="#home">HOME</a><a href="#inplay">IN-PLAY</a><a href="#sports">SPORTS</a><a href="#games">GAMES</a><a href="#account">ACCOUNT</a></nav>
+
+<header>
+ <div class="logo">KKC<span>888</span></div>
+ <div class="header-right">
+  <div id="headerUser">Demo Player</div>
+  <div>Virtual Coins Only</div>
+ </div>
+</header>
+
+<nav>
+ <a href="#home">HOME</a>
+ <a href="#inplay">IN-PLAY</a>
+ <a href="#sports">SPORTS</a>
+ <a href="#games">GAMES</a>
+ <a href="#account">ACCOUNT</a>
+</nav>
+
 <main>
+
 <section class="card balance" id="home">
-<div>YOUR DEMO COIN BALANCE</div><div class="coins" id="coins">0 Coins</div><div id="welcome">Demo Player</div>
+ <div class="balance-top">
+  <span>MY DEMO BALANCE</span>
+  <span class="demo">DEMO MODE</span>
+ </div>
+ <div class="coins" id="coins">0 Coins</div>
+ <div id="welcome">Welcome, Demo Player</div>
+ <p class="note">These virtual coins have no cash value and cannot be withdrawn.</p>
 </section>
-<section class="card" id="inplay"><h3>🔴 In-Play</h3><p class="small">Live scores can be added when a verified data source is connected.</p></section>
-<section class="card" id="sports"><h3>🏆 Sports</h3><p>🏏 Cricket</p><p>⚽ Football</p><p>🎾 Tennis</p><p>🏀 Basketball</p></section>
-<section class="card" id="games"><h3>🎮 Games</h3><p class="small">Demo games section.</p></section>
-<section class="card" id="history"><h3>📜 Transaction & Chip History</h3><div id="historyList">Loading history...</div></section>
-<section class="card" id="account"><h3>👤 My Account</h3><p id="accountName">Not logged in</p><a href="login.html">Login page</a><p><button onclick="logout()">Logout</button></p></section>
+
+<section class="card" id="sports">
+ <div class="section-title">🏆 Sports</div>
+ <div class="sports">
+  <div class="sport"><b>🏏</b>Cricket</div>
+  <div class="sport"><b>⚽</b>Football</div>
+  <div class="sport"><b>🎾</b>Tennis</div>
+  <div class="sport"><b>🏀</b>Basketball</div>
+  <div class="sport"><b>🏐</b>Volleyball</div>
+ </div>
+</section>
+
+<section class="card" id="inplay">
+ <div class="section-title">🔴 Match Centre</div>
+ <div class="tabs">
+  <button class="tab active" onclick="showTab('live',this)">LIVE</button>
+  <button class="tab" onclick="showTab('upcoming',this)">UPCOMING</button>
+ </div>
+
+ <div id="live">
+  <div class="match">
+   <div class="match-head"><span>🏏 CRICKET</span><span class="live">● DEMO LIVE</span></div>
+   <div class="teams">India vs Australia</div>
+   <div class="note">Sample match • Demo market</div>
+   <div class="odds">
+    <button class="odd back" onclick="selectOdd('India',1.85)">1.85<small>BACK • India</small></button>
+    <button class="odd lay" onclick="selectOdd('Australia',2.10)">2.10<small>LAY • Australia</small></button>
+   </div>
+  </div>
+
+  <div class="match">
+   <div class="match-head"><span>⚽ FOOTBALL</span><span class="live">● DEMO LIVE</span></div>
+   <div class="teams">Manchester City vs Arsenal</div>
+   <div class="note">Sample match • Demo market</div>
+   <div class="odds">
+    <button class="odd back" onclick="selectOdd('Manchester City',1.90)">1.90<small>BACK • Man City</small></button>
+    <button class="odd lay" onclick="selectOdd('Arsenal',2.20)">2.20<small>LAY • Arsenal</small></button>
+   </div>
+  </div>
+ </div>
+
+ <div id="upcoming" style="display:none">
+  <div class="match">
+   <div class="match-head"><span>🏏 CRICKET</span><span>UPCOMING</span></div>
+   <div class="teams">Pakistan vs England</div>
+   <div class="note">Sample upcoming match</div>
+  </div>
+  <div class="match">
+   <div class="match-head"><span>⚽ FOOTBALL</span><span>UPCOMING</span></div>
+   <div class="teams">Real Madrid vs Barcelona</div>
+   <div class="note">Sample upcoming match</div>
+  </div>
+ </div>
+ <p class="note">All matches and odds shown above are illustrative demo data, not live fixtures or real market prices.</p>
+</section>
+
+<section class="card" id="slip">
+ <div class="section-title">🎯 Demo Selection</div>
+ <div id="selectionName">No selection</div>
+ <div class="note" id="selectionOdds"></div>
+ <label>Virtual coin amount</label>
+ <input type="number" id="stake" min="1" placeholder="Enter virtual coins">
+ <button class="action" onclick="placeDemo()">Confirm Demo Selection</button>
+ <p class="note">This only changes your non-redeemable demo points.</p>
+</section>
+
+<section class="card" id="games">
+ <div class="section-title">🎮 Games Zone</div>
+ <div class="games-grid">
+  <div class="game"><span>🃏</span>Teen Patti Demo</div>
+  <div class="game"><span>🐉</span>Dragon Tiger Demo</div>
+  <div class="game"><span>🎴</span>Andar Bahar Demo</div>
+  <div class="game"><span>♠️</span>Poker Demo</div>
+ </div>
+ <p class="note">Game tiles are visual placeholders. No real-money play.</p>
+</section>
+
+<section class="card" id="history">
+ <div class="section-title">📜 Demo History</div>
+ <div id="historyList">Loading...</div>
+</section>
+
+<section class="card" id="account">
+ <div class="section-title">👤 My Account</div>
+ <p id="accountName">Not logged in</p>
+ <a href="login.html" style="color:#8ccfff">Login Page</a>
+ <p><button class="action" onclick="logout()">Logout</button></p>
+</section>
+
 </main>
-<div class="bottom"><a href="#home">⌂ Home</a><a href="#inplay">◉ In-Play</a><a href="#sports">🏆 Sports</a><a href="#games">▦ Games</a><a href="#account">☻ Account</a></div>
+
+<div class="bottom">
+ <a href="#home">⌂<br>Home</a>
+ <a href="#inplay">◉<br>In-Play</a>
+ <a href="#sports">🏆<br>Sports</a>
+ <a href="#games">▦<br>Games</a>
+ <a href="#account">☻<br>Account</a>
+</div>
+
 <script>
 const username=localStorage.getItem("kkc888_current_user");
-const players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
-const player=players.find(p=>p.username===username);
+let players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
+let player=players.find(p=>p.username===username);
 const fmt=n=>Number(n||0).toLocaleString("en-IN");
+
+function refreshBalance(){
+ players=JSON.parse(localStorage.getItem("kkc888_players")||"[]");
+ player=players.find(p=>p.username===username);
+ document.getElementById("coins").textContent=fmt(player?.chips)+" Coins";
+}
+
 if(username){
  document.getElementById("welcome").textContent="Welcome, "+username;
  document.getElementById("accountName").textContent=username;
+ document.getElementById("headerUser").textContent=username;
 }
-document.getElementById("coins").textContent=fmt(player?.chips)+" Coins";
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function showTab(id,btn){
+ document.getElementById("live").style.display=id==="live"?"block":"none";
+ document.getElementById("upcoming").style.display=id==="upcoming"?"block":"none";
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+}
+
+let selected=null;
+function selectOdd(name,odds){
+ if(!username||!player){
+  alert("Please login first.");
+  location.href="login.html";
+  return;
+ }
+ selected={name,odds};
+ document.getElementById("selectionName").textContent=name;
+ document.getElementById("selectionOdds").textContent="Demo odds: "+odds;
+ document.getElementById("slip").style.display="block";
+ document.getElementById("slip").scrollIntoView({behavior:"smooth"});
+}
+
+function placeDemo(){
+ if(!selected||!player)return;
+ const amount=Number(document.getElementById("stake").value);
+ if(!Number.isFinite(amount)||amount<=0||!Number.isInteger(amount)){
+  alert("Enter a valid whole number of virtual coins.");
+  return;
+ }
+ if(amount>Number(player.chips||0)){
+  alert("Not enough virtual coins.");
+  return;
+ }
+ player.chips=Number(player.chips||0)-amount;
+ players=players.map(p=>p.username===username?player:p);
+ localStorage.setItem("kkc888_players",JSON.stringify(players));
+
+ const all=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
+ all.push({
+  username,
+  type:"DEMO",
+  amount,
+  balance:player.chips,
+  date:new Date().toLocaleString("en-IN"),
+  selection:selected.name,
+  odds:selected.odds
+ });
+ localStorage.setItem("kkc888_transactions",JSON.stringify(all));
+
+ document.getElementById("stake").value="";
+ document.getElementById("slip").style.display="none";
+ alert("Demo selection recorded. Virtual coins updated.");
+ refreshBalance();
+ showHistory();
+}
+
+function esc(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
 function showHistory(){
  const all=JSON.parse(localStorage.getItem("kkc888_transactions")||"[]");
  const mine=all.filter(t=>t.username===username).slice().reverse();
  const el=document.getElementById("historyList");
- if(!username){el.innerHTML='Please <a href="login.html">login</a> to view your history.';return;}
- if(!mine.length){el.textContent="No transactions yet. Chip changes made after login will appear here.";return;}
- el.innerHTML=mine.map(t=>`<div class="transaction"><div><b>${t.type==="ADD"?"Virtual chips added":"Virtual chips removed"}</b><div class="small">${esc(t.date)}</div><div class="small">Balance after: ${fmt(t.balance)}</div></div><div class="${t.type==="ADD"?"plus":"minus"}">${t.type==="ADD"?"+":"−"}${fmt(t.amount)}</div></div>`).join("");
+ if(!username){el.innerHTML='Please <a href="login.html">login</a> to view history.';return;}
+ if(!mine.length){el.textContent="No demo history yet.";return;}
+ el.innerHTML=mine.map(t=>`
+ <div class="transaction">
+  <div>
+   <b>${t.type==="ADD"?"Virtual coins added":t.type==="DEMO"?"Demo selection":"Virtual coins removed"}</b>
+   <div class="note">${esc(t.date||"")}</div>
+   <div class="note">${t.selection?"Selection: "+esc(t.selection):""}</div>
+   <div class="note">Balance: ${fmt(t.balance)}</div>
+  </div>
+  <div class="${t.type==="ADD"?"plus":"minus"}">
+   ${t.type==="ADD"?"+":"−"}${fmt(t.amount)}
+  </div>
+ </div>`).join("");
 }
-function logout(){localStorage.removeItem("kkc888_current_user");location.href="login.html";}
+
+function logout(){
+ localStorage.removeItem("kkc888_current_user");
+ location.href="login.html";
+}
+
+refreshBalance();
 showHistory();
 </script>
 </body>
